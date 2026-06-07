@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Myra Agents — Run your CLI coding agents on a Kanban board</title>
+  <title>Control your AI Agents from anywhere</title>
   <meta name="description" content="Myra Agents is a local-first desktop Kanban board that runs headless CLI coding agents (Claude, OpenCode, Copilot CLI, or your own). Each card carries a prompt; launch it, watch the logs stream, schedule runs on cron." />
   <link rel="icon" href="assets/app-icon.png" />
 
@@ -57,7 +57,7 @@
   <header class="sticky top-0 z-40 border-b border-slate-200/70 bg-white/80 backdrop-blur">
     <nav class="mx-auto flex max-w-6xl items-center justify-between px-5 py-3">
       <a href="#top" class="flex items-center gap-2">
-        <img src="assets/app-icon.png" alt="" class="h-8 w-8 rounded-lg" />
+        <img src="assets/logo-light.png" alt="" class="h-8 w-8 rounded-lg" />
         <span class="text-lg font-semibold tracking-tight">Myra&nbsp;Agents</span>
       </a>
       <div class="hidden items-center gap-7 text-sm font-medium text-slate-600 md:flex">
@@ -80,25 +80,28 @@
       <div class="mx-auto max-w-3xl text-center">
         <img src="assets/logo-dark.png" alt="Myra Agents" class="mx-auto mb-8 h-16 w-auto" />
         <span class="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs font-medium text-white/80">
-          Local-first · Next.js 16 + Tauri v2 · macOS · Windows · Linux
+          MacOS · Windows · Linux · Web
         </span>
-        <h1 class="mt-6 text-4xl font-bold leading-tight tracking-tight md:text-6xl">
-          Run your CLI coding agents<br class="hidden sm:block" /> on a Kanban board
+        <span class="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/15 px-3 py-1 text-xs font-medium text-white/80">
+          Open-Source
+        </span>
+        <h1 class="mt-6 text-4xl font-bold leading-tight tracking-tight md:text-5xl">
+          Control your AI Agents<br class="hidden sm:block" /> from <u>anywhere</u>
         </h1>
         <p class="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-white/75">
-          Each card carries a prompt. Launch it and Myra Agents spawns a headless CLI
-          agent — Claude, OpenCode, Copilot CLI, or your own binary — streams its output
-          live onto the card, and moves it through the workflow as the agent reports progress.
+          It never been easier to Run / Manage / Monitor your <b>AI Agents.</b><br class="hidden sm:block" />
+          Spawn propriatery or  AI Agents from <b>anywhere</b> on all your devices.<br class="hidden sm:block" />
+          Run a dozen at once. Schedule them to recur.
         </p>
         <div class="mt-9 flex flex-wrap items-center justify-center gap-3">
-          <a href="https://github.com/Myra-Agents/Myra-Agents"
+          <a href="#install"
              class="inline-flex items-center gap-2 rounded-xl bg-white px-5 py-3 text-sm font-semibold text-ink hover:bg-white/90">
+            Get it running →
+          </a>
+          <a href="https://github.com/Myra-Agents/Myra-Agents"
+             class="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/5 px-5 py-3 text-sm font-semibold text-white hover:bg-white/10">
             <svg viewBox="0 0 16 16" class="h-4 w-4 fill-current"><path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38l-.01-1.49c-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48l-.01 2.2c0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
             Star on GitHub
-          </a>
-          <a href="#install"
-             class="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/5 px-5 py-3 text-sm font-semibold text-white hover:bg-white/10">
-            Install →
           </a>
         </div>
       </div>
@@ -108,45 +111,45 @@
   <!-- Features -->
   <section id="features" class="mx-auto max-w-6xl px-5 py-20 md:py-28">
     <div class="mx-auto max-w-2xl text-center">
-      <h2 class="text-3xl font-bold tracking-tight md:text-4xl">Built for orchestrating agents</h2>
-      <p class="mt-4 text-lg text-slate-600">A board, a queue, and a scheduler around whatever CLI agent you already run.</p>
+      <h2 class="text-3xl font-bold tracking-tight md:text-4xl">One board for every agent you run</h2>
+      <p class="mt-4 text-lg text-slate-600">A board, a queue, and a scheduler wrapped around the AI Agent you already use.</p>
     </div>
 
     <div class="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
       <!-- card -->
       <div class="rounded-2xl border border-slate-200 p-6 transition hover:border-brand/40 hover:shadow-sm">
         <div class="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-brand/10 text-brand">▦</div>
-        <h3 class="font-semibold">Kanban lifecycle</h3>
-        <p class="mt-2 text-sm leading-relaxed text-slate-600">Draft → To Do → In Progress → Waiting Feedback → Awaiting Review → Done, driven by what the agent reports.</p>
+        <h3 class="font-semibold">See where every tasks stands</h3>
+        <p class="mt-2 text-sm leading-relaxed text-slate-600">Kanban native view of you AI Agents. Cards move themselves: Draft → To Do → In Progress → Waiting Feedback → Awaiting Review → Done, driven by what the agent reports.</p>
       </div>
       <div class="rounded-2xl border border-slate-200 p-6 transition hover:border-brand/40 hover:shadow-sm">
         <div class="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-brand/10 text-brand">⚙</div>
-        <h3 class="font-semibold">Per-card agent presets</h3>
-        <p class="mt-2 text-sm leading-relaxed text-slate-600">Configure name, binary, and an args template with a <code class="rounded bg-slate-100 px-1">{prompt}</code> placeholder, plus a default working directory.</p>
+        <h3 class="font-semibold">Bring your own agent</h3>
+        <p class="mt-2 text-sm leading-relaxed text-slate-600">AI Agents and LLM agnostic from the start. Open-Source plugins are available to integrate most common AI Agents but you can also create you own  Point a preset at a binary, an args template with a <code class="rounded bg-slate-100 px-1">{prompt}</code> placeholder, and a working directory — no plugin, no lock-in.</p>
       </div>
       <div class="rounded-2xl border border-slate-200 p-6 transition hover:border-brand/40 hover:shadow-sm">
         <div class="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-brand/10 text-brand">≣</div>
-        <h3 class="font-semibold">Live streamed logs</h3>
-        <p class="mt-2 text-sm leading-relaxed text-slate-600">Per-run output streamed onto the card, plus a history view with duration and — when reported — token / cost stats.</p>
+        <h3 class="font-semibold">Watch every run live</h3>
+        <p class="mt-2 text-sm leading-relaxed text-slate-600">Output streams onto the card as it happens. History keeps every run with its duration and — when the agent reports them — token and cost stats.</p>
       </div>
       <div class="rounded-2xl border border-slate-200 p-6 transition hover:border-brand/40 hover:shadow-sm">
         <div class="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-brand/10 text-brand">⇉</div>
-        <h3 class="font-semibold">Run queue</h3>
-        <p class="mt-2 text-sm leading-relaxed text-slate-600">A <code class="rounded bg-slate-100 px-1">maxConcurrentAgents</code> limit (0 = unlimited) — launches over the cap queue up and dequeue as agents finish.</p>
+        <h3 class="font-semibold">Run many at once</h3>
+        <p class="mt-2 text-sm leading-relaxed text-slate-600">Set how many agents run in parallel (<code class="rounded bg-slate-100 px-1">maxConcurrentAgents</code>, 0 = unlimited). Launches over the cap wait in line and start as others finish.</p>
       </div>
       <div class="rounded-2xl border border-slate-200 p-6 transition hover:border-brand/40 hover:shadow-sm">
         <div class="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-brand/10 text-brand">⏱</div>
-        <h3 class="font-semibold">Schedules</h3>
-        <p class="mt-2 text-sm leading-relaxed text-slate-600">Once / daily / weekly / interval / cron, with a planner view. Runs in the background from the system tray.</p>
+        <h3 class="font-semibold">Set it and walk away</h3>
+        <p class="mt-2 text-sm leading-relaxed text-slate-600">Schedule runs once, daily, weekly, on an interval, or by cron — with a planner view. Keeps working in the background from the system tray.</p>
       </div>
       <div class="rounded-2xl border border-slate-200 p-6 transition hover:border-brand/40 hover:shadow-sm">
         <div class="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-brand/10 text-brand">⌂</div>
-        <h3 class="font-semibold">Local-first</h3>
-        <p class="mt-2 text-sm leading-relaxed text-slate-600">Runs fully on your machine against a bundled server sidecar. An optional managed cloud is opt-in via env vars — never required.</p>
+        <h3 class="font-semibold">Your machine, your keys</h3>
+        <p class="mt-2 text-sm leading-relaxed text-slate-600">Everything runs locally. No account to sign up for. A managed cloud is opt-in — never required.</p>
       </div>
     </div>
 
-    <p class="mt-8 text-center text-sm text-slate-500">Also: English + French UI · best-of-N multi-agent (roadmap) · budget caps · card chaining (roadmap).</p>
+    <p class="mt-8 text-center text-sm text-slate-500">Also: English + French UI.</p>
   </section>
 
   <!-- How it works -->
@@ -186,8 +189,8 @@
   <!-- Install -->
   <section id="install" class="mx-auto max-w-6xl px-5 py-20 md:py-28">
     <div class="mx-auto max-w-3xl text-center">
-      <h2 class="text-3xl font-bold tracking-tight md:text-4xl">Get started</h2>
-      <p class="mt-4 text-lg text-slate-600">One command sets up the full dev workspace — clones every repo and wires it together.</p>
+      <h2 class="text-3xl font-bold tracking-tight md:text-4xl">Up and running in one command</h2>
+      <p class="mt-4 text-lg text-slate-600">It clones every repo and wires the workspace together for you.</p>
     </div>
 
     <div class="mx-auto mt-10 max-w-3xl">
@@ -224,10 +227,10 @@
       <div class="flex items-center gap-6">
         <a href="https://github.com/orgs/Myra-Agents/repositories" class="hover:text-slate-700">GitHub org</a>
         <a href="https://github.com/Myra-Agents/Myra-Agents" class="hover:text-slate-700">App repo</a>
-        <span>MIT · © 2026 Valentin Rudloff</span>
+        <span>MIT · © 2026 Leaptech</span>
       </div>
     </div>
-    <p class="pb-8 text-center text-xs text-slate-400">Myra is Swedish for <em>ant</em> — one agent is one ant; the colony runs in parallel toward a shared goal.</p>
+    <p class="pb-8 text-center text-xs text-slate-400">Myra is Swedish for <em>ant</em> — build your colony of Agents to achieve your goals.</p>
   </footer>
 
   <script>
