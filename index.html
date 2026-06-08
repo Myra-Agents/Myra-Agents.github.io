@@ -190,7 +190,7 @@
     <div class="mx-auto max-w-6xl px-5 py-20 md:py-28">
       <div class="mx-auto max-w-2xl text-center">
         <h2 class="text-3xl font-bold tracking-tight md:text-4xl">How it works</h2>
-        <p class="mt-4 text-lg text-slate-600">A card flows through lanes as its agent reports progress.</p>
+        <p class="mt-4 text-lg text-slate-600">Write it, wire it, schedule it — a card flows through lanes as its agent reports progress.</p>
       </div>
 
       <div class="mt-12 flex flex-wrap items-center justify-center gap-y-3 text-center text-sm font-medium">
@@ -202,18 +202,63 @@
         <span class="lane-arrow rounded-lg bg-white px-3 py-2 ring-1 ring-slate-200">Done</span>
       </div>
 
-      <div class="mt-12 grid gap-5 md:grid-cols-3">
+      <!-- Split feature rows -->
+      <div class="mx-auto mt-16 flex max-w-5xl flex-col gap-14">
+        <div class="grid items-center gap-8 md:grid-cols-2">
+          <div>
+            <div class="text-xs font-semibold uppercase tracking-wide text-brand">Write</div>
+            <h3 class="mt-2 text-xl font-bold tracking-tight">A card carries a prompt</h3>
+            <p class="mt-3 text-sm leading-relaxed text-slate-600">Add a card with a prompt, pick an agent preset and a working directory. Drafts live in their own lane until you launch them.</p>
+          </div>
+          <img src="assets/screens/kanban-board.png" alt="Myra kanban board" loading="lazy"
+               class="w-full rounded-xl ring-1 ring-slate-200 shadow-lg shadow-slate-900/5" />
+        </div>
+
+        <div class="grid items-center gap-8 md:grid-cols-2">
+          <div class="md:order-2">
+            <div class="text-xs font-semibold uppercase tracking-wide text-brand">Connect</div>
+            <h3 class="mt-2 text-xl font-bold tracking-tight">Bring your own agents</h3>
+            <p class="mt-3 text-sm leading-relaxed text-slate-600">Claude, OpenCode, Copilot CLI, or your own — wire integrations and machines once. Myra spawns the agent headless and streams its output live onto the card.</p>
+          </div>
+          <img src="assets/screens/integrations-panel.png" alt="Integrations panel" loading="lazy"
+               class="w-full rounded-xl ring-1 ring-slate-200 shadow-lg shadow-slate-900/5 md:order-1" />
+        </div>
+
+        <div class="grid items-center gap-8 md:grid-cols-2">
+          <div>
+            <div class="text-xs font-semibold uppercase tracking-wide text-brand">Schedule</div>
+            <h3 class="mt-2 text-xl font-bold tracking-tight">Run on cron</h3>
+            <p class="mt-3 text-sm leading-relaxed text-slate-600">Plan recurring runs from the day planner; cards advance through the lanes as agents report — no babysitting required.</p>
+          </div>
+          <img src="assets/screens/nav-day-planner.png" alt="Day planner" loading="lazy"
+               class="w-full rounded-xl ring-1 ring-slate-200 shadow-lg shadow-slate-900/5" />
+        </div>
+      </div>
+
+      <!-- Use cases -->
+      <div class="mx-auto mt-20 max-w-2xl text-center">
+        <h3 class="text-2xl font-bold tracking-tight md:text-3xl">What you'll run</h3>
+        <p class="mt-3 text-base text-slate-600">Real jobs people hand to Myra every day.</p>
+      </div>
+
+      <div class="mt-10 grid gap-5 md:grid-cols-3">
         <div class="rounded-2xl bg-white p-6 ring-1 ring-slate-200">
-          <div class="text-sm font-semibold text-brand">1 · Write</div>
-          <p class="mt-2 text-sm leading-relaxed text-slate-600">Add a card with a prompt, pick an agent preset and working directory.</p>
+          <div class="text-xs font-semibold uppercase tracking-wide text-brand">Nightly maintenance</div>
+          <div class="mt-2 text-base font-bold">Dependency upgrades</div>
+          <p class="mt-2 text-sm leading-relaxed text-slate-600">Schedule a card to bump deps, run the test suite, and open a PR while you sleep.</p>
+          <code class="mt-4 block rounded-lg bg-ink px-3 py-2 font-mono text-xs text-emerald-300">cron: "0 3 * * *"</code>
         </div>
         <div class="rounded-2xl bg-white p-6 ring-1 ring-slate-200">
-          <div class="text-sm font-semibold text-brand">2 · Launch</div>
-          <p class="mt-2 text-sm leading-relaxed text-slate-600">Myra spawns the agent headless and streams its output live onto the card.</p>
+          <div class="text-xs font-semibold uppercase tracking-wide text-brand">On every PR</div>
+          <div class="mt-2 text-base font-bold">Automated review</div>
+          <p class="mt-2 text-sm leading-relaxed text-slate-600">A card watches for new pull requests and posts a structured review with findings.</p>
+          <code class="mt-4 block rounded-lg bg-ink px-3 py-2 font-mono text-xs text-emerald-300">agent: claude · review</code>
         </div>
         <div class="rounded-2xl bg-white p-6 ring-1 ring-slate-200">
-          <div class="text-sm font-semibold text-brand">3 · Move</div>
-          <p class="mt-2 text-sm leading-relaxed text-slate-600">The card advances through lanes as the agent reports — or schedule it to recur.</p>
+          <div class="text-xs font-semibold uppercase tracking-wide text-brand">Across repos</div>
+          <div class="mt-2 text-base font-bold">Multi-repo refactor</div>
+          <p class="mt-2 text-sm leading-relaxed text-slate-600">Fan one prompt out to several working directories and track each on its own card.</p>
+          <code class="mt-4 block rounded-lg bg-ink px-3 py-2 font-mono text-xs text-emerald-300">dirs: app, shared, hub</code>
         </div>
       </div>
     </div>
