@@ -242,9 +242,20 @@
     <!-- Download (coming soon) -->
     <div class="mx-auto mt-14 max-w-3xl text-center">
       <h3 class="text-sm font-semibold uppercase tracking-wide text-slate-500">Prebuilt downloads</h3>
+
+      <!-- Detected download (filled by JS; hidden if detection fails) -->
+      <div id="smart-dl" class="mt-6 hidden">
+        <a id="smart-dl-link" href="#"
+           class="inline-flex items-center justify-center gap-2 rounded-xl bg-brand px-6 py-3.5 text-base font-semibold text-white shadow-sm hover:opacity-90">
+          <svg viewBox="0 0 24 24" class="h-5 w-5 fill-current"><path d="M12 3v10.6l3.3-3.3 1.4 1.4-5.7 5.7-5.7-5.7 1.4-1.4 3.3 3.3V3h2zM5 19h14v2H5z"/></svg>
+          <span id="smart-dl-label">Download</span>
+        </a>
+        <p id="smart-dl-sub" class="mt-2 text-xs text-slate-500"></p>
+      </div>
+
       <div class="mt-6 grid gap-5 sm:grid-cols-3">
         <!-- macOS -->
-        <div class="rounded-2xl bg-white p-5 ring-1 ring-slate-200">
+        <div data-os="mac" class="rounded-2xl bg-white p-5 ring-1 ring-slate-200 transition">
           <div class="text-sm font-semibold">macOS</div>
           <div class="mt-3 flex flex-col gap-2">
             <a href="https://github.com/Myra-Agents/Myra-Agents/releases/download/v0.1.0/Myra.Agents_0.1.0_aarch64.dmg"
@@ -254,7 +265,7 @@
           </div>
         </div>
         <!-- Windows -->
-        <div class="rounded-2xl bg-white p-5 ring-1 ring-slate-200">
+        <div data-os="win" class="rounded-2xl bg-white p-5 ring-1 ring-slate-200 transition">
           <div class="text-sm font-semibold">Windows</div>
           <div class="mt-3 flex flex-col gap-2">
             <a href="https://github.com/Myra-Agents/Myra-Agents/releases/download/v0.1.0/Myra.Agents_0.1.0_x64-setup.exe"
@@ -264,7 +275,7 @@
           </div>
         </div>
         <!-- Linux -->
-        <div class="rounded-2xl bg-white p-5 ring-1 ring-slate-200">
+        <div data-os="linux" class="rounded-2xl bg-white p-5 ring-1 ring-slate-200 transition">
           <div class="text-sm font-semibold">Linux</div>
           <div class="mt-3 flex flex-col gap-2">
             <a href="https://github.com/Myra-Agents/Myra-Agents/releases/download/v0.1.0/Myra.Agents_0.1.0_amd64.AppImage"
@@ -309,6 +320,61 @@
         setTimeout(() => (btn.textContent = 'Copy'), 1600);
       });
     }
+
+    // --- Detect visitor hardware and recommend the right build ---
+    (function () {
+      const REL = 'https://github.com/Myra-Agents/Myra-Agents/releases/download/v0.1.0/';
+      const ASSET = {
+        'mac-arm':  'Myra.Agents_0.1.0_aarch64.dmg',
+        'mac-x64':  'Myra.Agents_0.1.0_x64.dmg',
+        'win':      'Myra.Agents_0.1.0_x64-setup.exe',
+        'linux':    'Myra.Agents_0.1.0_amd64.AppImage',
+      };
+      const LABEL = {
+        'mac-arm':  ['Download for macOS', 'Apple Silicon · .dmg'],
+        'mac-x64':  ['Download for macOS', 'Intel · .dmg'],
+        'win':      ['Download for Windows', 'x64 · .exe installer'],
+        'linux':    ['Download for Linux', 'x64 · AppImage'],
+      };
+
+      async function detect() {
+        const uad = navigator.userAgentData;
+        // Chromium: ask for high-entropy platform + CPU architecture
+        if (uad && uad.getHighEntropyValues) {
+          try {
+            const hi = await uad.getHighEntropyValues(['platform', 'architecture']);
+            const plat = (hi.platform || '').toLowerCase();
+            const arch = (hi.architecture || '').toLowerCase();
+            if (plat.includes('mac'))     return arch === 'arm' ? 'mac-arm' : 'mac-x64';
+            if (plat.includes('win'))     return 'win';
+            if (plat.includes('linux') || plat.includes('chrome os')) return 'linux';
+          } catch (_) { /* fall through */ }
+        }
+        // Fallback: UA string sniff (can't tell Apple Silicon from Intel → assume ARM)
+        const ua = navigator.userAgent;
+        if (/Windows/i.test(ua))                 return 'win';
+        if (/Mac OS X|Macintosh/i.test(ua))      return 'mac-arm';
+        if (/Linux|X11|CrOS/i.test(ua) && !/Android/i.test(ua)) return 'linux';
+        return null; // mobile / unknown → leave the grid as-is
+      }
+
+      detect().then((key) => {
+        if (!key) return;
+        const wrap = document.getElementById('smart-dl');
+        const link = document.getElementById('smart-dl-link');
+        const lbl  = document.getElementById('smart-dl-label');
+        const sub  = document.getElementById('smart-dl-sub');
+        link.href = REL + ASSET[key];
+        lbl.textContent = LABEL[key][0];
+        sub.textContent = LABEL[key][1] + ' · other builds below';
+        wrap.classList.remove('hidden');
+
+        // highlight the matching OS card
+        const osCard = key.startsWith('mac') ? 'mac' : key;
+        const card = document.querySelector(`[data-os="${osCard}"]`);
+        if (card) card.classList.add('ring-2', 'ring-brand');
+      });
+    })();
   </script>
 </body>
 </html>
