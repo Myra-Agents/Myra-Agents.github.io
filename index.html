@@ -3,20 +3,23 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Control your AI Agents from anywhere</title>
+  <title>Myra Agents — Control your AI agents from anywhere</title>
   <meta name="description" content="Myra Agents is a local-first desktop Kanban board that runs headless CLI coding agents (Claude, OpenCode, Copilot CLI, or your own). Each card carries a prompt; launch it, watch the logs stream, schedule runs on cron." />
   <link rel="icon" href="assets/app-icon.png" />
+  <link rel="apple-touch-icon" href="assets/app-icon.png" />
 
   <!-- OpenGraph / Twitter -->
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Myra Agents — a Kanban board that runs CLI coding agents" />
   <meta property="og:description" content="Local-first desktop app. Each card carries a prompt; launch it and Myra spawns a headless CLI coding agent, streams its output live, and moves the card as the agent reports progress." />
   <meta property="og:url" content="https://myra-agents.github.io" />
-  <meta property="og:image" content="https://myra-agents.github.io/assets/app-icon.png" />
+  <meta property="og:image" content="https://myra-agents.github.io/assets/screens/kanban-board.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="867" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Myra Agents — a Kanban board that runs CLI coding agents" />
   <meta name="twitter:description" content="Local-first desktop app that runs headless CLI coding agents on a Kanban board." />
-  <meta name="twitter:image" content="https://myra-agents.github.io/assets/app-icon.png" />
+  <meta name="twitter:image" content="https://myra-agents.github.io/assets/screens/kanban-board.png" />
 
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -79,18 +82,20 @@
     <div class="mx-auto max-w-6xl px-5 py-24 md:py-32">
       <div class="mx-auto max-w-3xl text-center">
         <img src="assets/logo-dark.png" alt="Myra Agents" class="mx-auto mb-8 h-16 w-auto" />
-        <span class="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs font-medium text-white/80">
-          MacOS · Windows · Linux · Web
-        </span>
-        <span class="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/15 px-3 py-1 text-xs font-medium text-white/80">
-          Open-Source
-        </span>
+        <div class="flex flex-wrap items-center justify-center gap-2">
+          <span class="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs font-medium text-white/80">
+            macOS · Windows · Linux · Web
+          </span>
+          <span class="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs font-medium text-white/80">
+            Open source
+          </span>
+        </div>
         <h1 class="mt-6 text-4xl font-bold leading-tight tracking-tight md:text-5xl">
-          Control your AI Agents<br class="hidden sm:block" /> from <u>anywhere</u>
+          Control your AI agents<br class="hidden sm:block" /> from <span class="text-brand">anywhere</span>
         </h1>
         <p class="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-white/75">
-          It never been easier to Run / Manage / Monitor your <b>AI Agents.</b><br class="hidden sm:block" />
-          Spawn propriatery or  AI Agents from <b>anywhere</b> on all your devices.<br class="hidden sm:block" />
+          It's never been easier to run, manage, and monitor your <b>AI agents.</b><br class="hidden sm:block" />
+          Spawn proprietary or open-source agents from <b>anywhere</b>, on all your devices.<br class="hidden sm:block" />
           Run a dozen at once. Schedule them to recur.
         </p>
         <div class="mt-9 flex flex-wrap items-center justify-center gap-3">
@@ -105,6 +110,18 @@
           </a>
         </div>
       </div>
+
+      <!-- Hero screenshot -->
+      <div class="mx-auto mt-16 max-w-5xl">
+        <div class="overflow-hidden rounded-xl border border-white/10 bg-slate-900/60 shadow-2xl ring-1 ring-white/10 backdrop-blur">
+          <div class="flex items-center gap-1.5 border-b border-white/10 px-4 py-3">
+            <span class="h-3 w-3 rounded-full bg-red-400/80"></span>
+            <span class="h-3 w-3 rounded-full bg-yellow-400/80"></span>
+            <span class="h-3 w-3 rounded-full bg-green-400/80"></span>
+          </div>
+          <img src="assets/screens/kanban-board.png" alt="Myra Agents Kanban board with Draft, To Do, In Progress and Waiting lanes" class="w-full" />
+        </div>
+      </div>
     </div>
   </section>
 
@@ -112,20 +129,20 @@
   <section id="features" class="mx-auto max-w-6xl px-5 py-20 md:py-28">
     <div class="mx-auto max-w-2xl text-center">
       <h2 class="text-3xl font-bold tracking-tight md:text-4xl">One board for every agent you run</h2>
-      <p class="mt-4 text-lg text-slate-600">A board, a queue, and a scheduler wrapped around the AI Agent you already use.</p>
+      <p class="mt-4 text-lg text-slate-600">A board, a queue, and a scheduler wrapped around the AI agent you already use.</p>
     </div>
 
     <div class="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
       <!-- card -->
       <div class="rounded-2xl border border-slate-200 p-6 transition hover:border-brand/40 hover:shadow-sm">
         <div class="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-brand/10 text-brand">▦</div>
-        <h3 class="font-semibold">See where every tasks stands</h3>
-        <p class="mt-2 text-sm leading-relaxed text-slate-600">Kanban native view of you AI Agents. Cards move themselves: Draft → To Do → In Progress → Waiting Feedback → Awaiting Review → Done, driven by what the agent reports.</p>
+        <h3 class="font-semibold">See where every task stands</h3>
+        <p class="mt-2 text-sm leading-relaxed text-slate-600">A native Kanban view of your agents. Cards move themselves: Draft → To Do → In Progress → Waiting Feedback → Awaiting Review → Done, driven by what the agent reports.</p>
       </div>
       <div class="rounded-2xl border border-slate-200 p-6 transition hover:border-brand/40 hover:shadow-sm">
         <div class="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-brand/10 text-brand">⚙</div>
         <h3 class="font-semibold">Bring your own agent</h3>
-        <p class="mt-2 text-sm leading-relaxed text-slate-600">AI Agents and LLM agnostic from the start. Open-Source plugins are available to integrate most common AI Agents but you can also create you own  Point a preset at a binary, an args template with a <code class="rounded bg-slate-100 px-1">{prompt}</code> placeholder, and a working directory — no plugin, no lock-in.</p>
+        <p class="mt-2 text-sm leading-relaxed text-slate-600">Agent- and LLM-agnostic from the start. Open-source plugins cover the common agents, or roll your own: point a preset at a binary, an args template with a <code class="rounded bg-slate-100 px-1">{prompt}</code> placeholder, and a working directory — no plugin, no lock-in.</p>
       </div>
       <div class="rounded-2xl border border-slate-200 p-6 transition hover:border-brand/40 hover:shadow-sm">
         <div class="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-brand/10 text-brand">≣</div>
@@ -150,6 +167,22 @@
     </div>
 
     <p class="mt-8 text-center text-sm text-slate-500">Also: English + French UI.</p>
+
+    <!-- Peek inside -->
+    <div class="mt-16 grid gap-5 lg:grid-cols-3">
+      <figure class="overflow-hidden rounded-2xl border border-slate-200 bg-slate-50">
+        <img src="assets/screens/settings-agents.png" alt="Agent presets: OpenCode and GitHub Copilot CLI with binary and args template" class="w-full" />
+        <figcaption class="px-5 py-3 text-sm text-slate-600">Define agent presets — binary, args template, working directory.</figcaption>
+      </figure>
+      <figure class="overflow-hidden rounded-2xl border border-slate-200 bg-slate-50">
+        <img src="assets/screens/integrations-panel.png" alt="Integrations panel with a Slack webhook firing on Review, Feedback and Done" class="w-full" />
+        <figcaption class="px-5 py-3 text-sm text-slate-600">Wire webhooks that fire as cards reach Review, Feedback, or Done.</figcaption>
+      </figure>
+      <figure class="overflow-hidden rounded-2xl border border-slate-200 bg-slate-50">
+        <img src="assets/screens/nav-day-planner.png" alt="Day Planner: describe goals in plain language and generate a plan" class="w-full" />
+        <figcaption class="px-5 py-3 text-sm text-slate-600">Day Planner turns plain-language goals into a board of tasks.</figcaption>
+      </figure>
+    </div>
   </section>
 
   <!-- How it works -->
