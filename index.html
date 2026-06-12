@@ -30,6 +30,8 @@
       person_profiles: 'identified_only',
       autocapture: true,
       capture_pageview: true,
+      capture_exceptions: true, // Error Tracking: autocapture JS errors
+      enable_recording_console_log: true, // record console logs into replays
       disable_session_recording: false, // replay must also be ON in project settings
       session_recording: { maskAllInputs: false },
     });
