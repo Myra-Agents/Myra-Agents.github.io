@@ -255,28 +255,28 @@
 
       <!-- Use cases -->
       <div class="mx-auto mt-20 max-w-2xl text-center">
-        <h3 class="text-2xl font-bold tracking-tight md:text-3xl">What you'll run</h3>
-        <p class="mt-3 text-base text-slate-600">Real jobs people hand to Myra every day.</p>
+        <h3 class="text-2xl font-bold tracking-tight md:text-3xl">The repetitive work you'll hand off</h3>
+        <p class="mt-3 text-base text-slate-600">Recurring chores you'd rather not do by hand — set once, then they just run.</p>
       </div>
 
       <div class="mt-10 grid gap-5 md:grid-cols-3">
         <div class="rounded-2xl bg-white p-6 ring-1 ring-slate-200">
-          <div class="text-xs font-semibold uppercase tracking-wide text-brand">Nightly maintenance</div>
-          <div class="mt-2 text-base font-bold">Dependency upgrades</div>
-          <p class="mt-2 text-sm leading-relaxed text-slate-600">Schedule a card to bump deps, run the test suite, and open a PR while you sleep.</p>
+          <div class="text-xs font-semibold uppercase tracking-wide text-brand">Every weekday · 8am</div>
+          <div class="mt-2 text-base font-bold">Daily change digest</div>
+          <p class="mt-2 text-sm leading-relaxed text-slate-600">Summarize the last 24h — merged PRs, fixes, risky changes — and post it to Slack before standup.</p>
+          <code class="mt-4 block rounded-lg bg-ink px-3 py-2 font-mono text-xs text-emerald-300">cron: "0 8 * * 1-5"</code>
+        </div>
+        <div class="rounded-2xl bg-white p-6 ring-1 ring-slate-200">
+          <div class="text-xs font-semibold uppercase tracking-wide text-brand">Every night</div>
+          <div class="mt-2 text-base font-bold">Dependency &amp; vuln sweep</div>
+          <p class="mt-2 text-sm leading-relaxed text-slate-600">Scan for outdated or vulnerable packages, bump them, run the tests, and open a PR — while you sleep.</p>
           <code class="mt-4 block rounded-lg bg-ink px-3 py-2 font-mono text-xs text-emerald-300">cron: "0 3 * * *"</code>
         </div>
         <div class="rounded-2xl bg-white p-6 ring-1 ring-slate-200">
-          <div class="text-xs font-semibold uppercase tracking-wide text-brand">On every PR</div>
-          <div class="mt-2 text-base font-bold">Automated review</div>
-          <p class="mt-2 text-sm leading-relaxed text-slate-600">A card watches for new pull requests and posts a structured review with findings.</p>
-          <code class="mt-4 block rounded-lg bg-ink px-3 py-2 font-mono text-xs text-emerald-300">agent: claude · review</code>
-        </div>
-        <div class="rounded-2xl bg-white p-6 ring-1 ring-slate-200">
-          <div class="text-xs font-semibold uppercase tracking-wide text-brand">Across repos</div>
-          <div class="mt-2 text-base font-bold">Multi-repo refactor</div>
-          <p class="mt-2 text-sm leading-relaxed text-slate-600">Fan one prompt out to several working directories and track each on its own card.</p>
-          <code class="mt-4 block rounded-lg bg-ink px-3 py-2 font-mono text-xs text-emerald-300">dirs: app, shared, hub</code>
+          <div class="text-xs font-semibold uppercase tracking-wide text-brand">Around the clock</div>
+          <div class="mt-2 text-base font-bold">Production error triage</div>
+          <p class="mt-2 text-sm leading-relaxed text-slate-600">Cluster new Sentry errors, find the root cause, and land a safe fix or post the analysis.</p>
+          <code class="mt-4 block rounded-lg bg-ink px-3 py-2 font-mono text-xs text-emerald-300">cron: "*/30 * * * *"</code>
         </div>
       </div>
     </div>
