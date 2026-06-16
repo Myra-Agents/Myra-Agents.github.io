@@ -3,22 +3,27 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Myra Agents — Control your AI agents from anywhere</title>
-  <meta name="description" content="Myra Agents is a local-first desktop Kanban board that runs headless CLI coding agents (Claude, OpenCode, Copilot CLI, or your own). Each card carries a prompt; launch it, watch the logs stream, schedule runs on cron." />
+  <title>Myra Agents — your AI workforce, running 24/7</title>
+  <meta name="description" content="Delegate the repetitive work you'd rather not do. Myra Agents puts a whole team of AI agents to work for you — set them up once and they run on their own, on schedule, even while you sleep. Local-first on your own machine, your keys." />
   <link rel="icon" href="assets/app-icon.png" />
   <link rel="apple-touch-icon" href="assets/app-icon.png" />
 
+  <!-- Brand font: Lato -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap" rel="stylesheet" />
+
   <!-- OpenGraph / Twitter -->
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Myra Agents — a Kanban board that runs CLI coding agents" />
-  <meta property="og:description" content="Local-first desktop app. Each card carries a prompt; launch it and Myra spawns a headless CLI coding agent, streams its output live, and moves the card as the agent reports progress." />
+  <meta property="og:title" content="Myra Agents — your AI workforce, running 24/7" />
+  <meta property="og:description" content="Delegate the repetitive work you'd rather not do. Set up your AI agents once and they run on their own, on schedule, even while you sleep. A local-first desktop app — your machine, your keys." />
   <meta property="og:url" content="https://myra-agents.github.io" />
   <meta property="og:image" content="https://myra-agents.github.io/assets/screens/kanban-board.png" />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="867" />
+  <meta property="og:image:width" content="2560" />
+  <meta property="og:image:height" content="1720" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Myra Agents — a Kanban board that runs CLI coding agents" />
-  <meta name="twitter:description" content="Local-first desktop app that runs headless CLI coding agents on a Kanban board." />
+  <meta name="twitter:title" content="Myra Agents — your AI workforce, running 24/7" />
+  <meta name="twitter:description" content="Delegate the repetitive work you'd rather not do. Put a team of AI agents to work for you — running on their own, on schedule, even while you sleep. Local-first, your keys." />
   <meta name="twitter:image" content="https://myra-agents.github.io/assets/screens/kanban-board.png" />
 
   <!-- PostHog analytics: autocapture + session replay, tagged by environment. -->
@@ -52,7 +57,7 @@
             ink: "oklch(0.2046 0 0)",
           },
           fontFamily: {
-            sans: ['ui-sans-serif', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
+            sans: ['Lato', 'ui-sans-serif', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
           },
         },
       },
@@ -60,14 +65,13 @@
   </script>
   <style>
     :root { --brand: oklch(0.6231 0.188 259.8145); }
+    body { font-family: 'Lato', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; }
     .hero-gradient {
       background:
         radial-gradient(1200px 600px at 75% -10%, oklch(0.5461 0.2152 262.8809 / 0.55), transparent 60%),
         radial-gradient(900px 500px at 10% 10%, oklch(0.3791 0.1378 265.5222 / 0.45), transparent 55%),
         oklch(0.2046 0 0);
     }
-    .lane-arrow::after { content: "→"; opacity: .4; padding: 0 .35rem; }
-    .lane-arrow:last-child::after { content: ""; }
   </style>
 </head>
 
@@ -83,6 +87,7 @@
       <div class="hidden items-center gap-7 text-sm font-medium text-slate-600 md:flex">
         <a href="#features" class="hover:text-slate-900">Features</a>
         <a href="#how" class="hover:text-slate-900">How it works</a>
+        <a href="#roadmap" class="hover:text-slate-900">Roadmap</a>
         <a href="#install" class="hover:text-slate-900">Install</a>
         <a href="https://github.com/Myra-Agents/Myra-Agents" class="hover:text-slate-900">GitHub</a>
       </div>
@@ -101,24 +106,29 @@
         <img src="assets/logo-dark.png" alt="Myra Agents" class="mx-auto mb-8 h-16 w-auto" />
         <div class="flex flex-wrap items-center justify-center gap-2">
           <span class="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs font-medium text-white/80">
-            macOS · Windows · Linux · Web
+            macOS · Windows · Linux
           </span>
           <span class="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs font-medium text-white/80">
             Open source
           </span>
+          <span class="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs font-medium text-white/80">
+            Local-first
+          </span>
         </div>
-        <h1 class="mt-6 text-4xl font-bold leading-tight tracking-tight md:text-5xl">
-          Control your AI agents<br class="hidden sm:block" /> from <span class="text-brand">anywhere</span>
+        <p class="mt-7 text-xs font-semibold uppercase tracking-[0.22em] text-brand">
+          Free everyone from repetitive work
+        </p>
+        <h1 class="mt-3 text-4xl font-bold leading-tight tracking-tight md:text-5xl">
+          Your AI workforce,<br class="hidden sm:block" /> running <span class="text-brand">24/7</span>
         </h1>
         <p class="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-white/75">
-          It's never been easier to run, manage, and monitor your <b>AI agents.</b><br class="hidden sm:block" />
-          Spawn proprietary or open-source agents from <b>anywhere</b>, on all your devices.<br class="hidden sm:block" />
-          Run a dozen at once. Schedule them to recur.
+          Delegate the repetitive work you'd rather not do.<br class="hidden sm:block" />
+          Set up your agents once — they run on their own, on schedule, even <b>while you sleep</b>.
         </p>
         <div class="mt-9 flex flex-wrap items-center justify-center gap-3">
           <a href="#install"
              class="inline-flex items-center gap-2 rounded-xl bg-white px-5 py-3 text-sm font-semibold text-ink hover:bg-white/90">
-            Get it running →
+            Get started →
           </a>
           <a href="https://github.com/Myra-Agents/Myra-Agents"
              class="inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/5 px-5 py-3 text-sm font-semibold text-white hover:bg-white/10">
@@ -145,8 +155,8 @@
   <!-- Features -->
   <section id="features" class="mx-auto max-w-6xl px-5 py-20 md:py-28">
     <div class="mx-auto max-w-2xl text-center">
-      <h2 class="text-3xl font-bold tracking-tight md:text-4xl">One board for every agent you run</h2>
-      <p class="mt-4 text-lg text-slate-600">A board, a queue, and a scheduler wrapped around the AI agent you already use.</p>
+      <h2 class="text-3xl font-bold tracking-tight md:text-4xl">Put a whole team of agents to work</h2>
+      <p class="mt-4 text-lg text-slate-600">Set them up once. They run on their own — in parallel, on schedule, reporting back as they go.</p>
     </div>
 
     <div class="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
@@ -159,7 +169,7 @@
       <div class="rounded-2xl border border-slate-200 p-6 transition hover:border-brand/40 hover:shadow-sm">
         <div class="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-brand/10 text-brand">⚙</div>
         <h3 class="font-semibold">Bring your own agent</h3>
-        <p class="mt-2 text-sm leading-relaxed text-slate-600">Agent- and LLM-agnostic from the start. Open-source plugins cover the common agents, or roll your own: point a preset at a binary, an args template with a <code class="rounded bg-slate-100 px-1">{prompt}</code> placeholder, and a working directory — no plugin, no lock-in.</p>
+        <p class="mt-2 text-sm leading-relaxed text-slate-600">Agent- and LLM-agnostic by design. Today <b>OpenCode</b> is the built-in harness — detected and installed for you in one click — and <b>Ollama</b> runs local models. Any other CLI agent works too: point a custom preset at a binary, an args template with a <code class="rounded bg-slate-100 px-1">{prompt}</code> placeholder, and a working directory. No lock-in.</p>
       </div>
       <div class="rounded-2xl border border-slate-200 p-6 transition hover:border-brand/40 hover:shadow-sm">
         <div class="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-brand/10 text-brand">≣</div>
@@ -173,13 +183,13 @@
       </div>
       <div class="rounded-2xl border border-slate-200 p-6 transition hover:border-brand/40 hover:shadow-sm">
         <div class="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-brand/10 text-brand">⏱</div>
-        <h3 class="font-semibold">Set it and walk away</h3>
-        <p class="mt-2 text-sm leading-relaxed text-slate-600">Schedule runs once, daily, weekly, on an interval, or by cron — with a planner view. Keeps working in the background from the system tray.</p>
+        <h3 class="font-semibold">They work the night shift</h3>
+        <p class="mt-2 text-sm leading-relaxed text-slate-600">Schedule runs once, daily, weekly, on an interval, or by cron. Myra keeps working in the background from the system tray, even while you sleep.</p>
       </div>
       <div class="rounded-2xl border border-slate-200 p-6 transition hover:border-brand/40 hover:shadow-sm">
         <div class="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-brand/10 text-brand">⌂</div>
         <h3 class="font-semibold">Your machine, your keys</h3>
-        <p class="mt-2 text-sm leading-relaxed text-slate-600">Everything runs locally. No account to sign up for. A managed cloud is opt-in — never required.</p>
+        <p class="mt-2 text-sm leading-relaxed text-slate-600">Everything runs locally on your own machine. No account, no sign-up — your API keys and your code never leave your device.</p>
       </div>
     </div>
 
@@ -188,16 +198,16 @@
     <!-- Peek inside -->
     <div class="mt-16 grid gap-5 lg:grid-cols-3">
       <figure class="overflow-hidden rounded-2xl border border-slate-200 bg-slate-50">
-        <img src="assets/screens/settings-agents.png" alt="Agent presets: OpenCode and GitHub Copilot CLI with binary and args template" class="w-full" />
+        <img src="assets/screens/settings-agents.png" alt="Agent presets — OpenCode detected and installed, with binary and args template" class="w-full" />
         <figcaption class="px-5 py-3 text-sm text-slate-600">Define agent presets — binary, args template, working directory.</figcaption>
       </figure>
       <figure class="overflow-hidden rounded-2xl border border-slate-200 bg-slate-50">
-        <img src="assets/screens/integrations-panel.png" alt="Integrations panel with a Slack webhook firing on Review, Feedback and Done" class="w-full" />
-        <figcaption class="px-5 py-3 text-sm text-slate-600">Wire webhooks that fire as cards reach Review, Feedback, or Done.</figcaption>
+        <img src="assets/screens/schedules.png" alt="Schedules view with recurring and cron-triggered runs" class="w-full" />
+        <figcaption class="px-5 py-3 text-sm text-slate-600">Schedule recurring runs — once, daily, weekly, on an interval, or cron.</figcaption>
       </figure>
       <figure class="overflow-hidden rounded-2xl border border-slate-200 bg-slate-50">
-        <img src="assets/screens/nav-day-planner.png" alt="Day Planner: describe goals in plain language and generate a plan" class="w-full" />
-        <figcaption class="px-5 py-3 text-sm text-slate-600">Day Planner turns plain-language goals into a board of tasks.</figcaption>
+        <img src="assets/screens/logs.png" alt="Logs view with each run's full execution output and history" class="w-full" />
+        <figcaption class="px-5 py-3 text-sm text-slate-600">Every run's full output and history, kept on the card.</figcaption>
       </figure>
     </div>
   </section>
@@ -207,16 +217,7 @@
     <div class="mx-auto max-w-6xl px-5 py-20 md:py-28">
       <div class="mx-auto max-w-2xl text-center">
         <h2 class="text-3xl font-bold tracking-tight md:text-4xl">How it works</h2>
-        <p class="mt-4 text-lg text-slate-600">Write it, wire it, schedule it — a card flows through lanes as its agent reports progress.</p>
-      </div>
-
-      <div class="mt-12 flex flex-wrap items-center justify-center gap-y-3 text-center text-sm font-medium">
-        <span class="lane-arrow rounded-lg bg-white px-3 py-2 ring-1 ring-slate-200">Draft</span>
-        <span class="lane-arrow rounded-lg bg-white px-3 py-2 ring-1 ring-slate-200">To&nbsp;Do</span>
-        <span class="lane-arrow rounded-lg bg-brand px-3 py-2 text-white">In&nbsp;Progress</span>
-        <span class="lane-arrow rounded-lg bg-white px-3 py-2 ring-1 ring-slate-200">Waiting&nbsp;Feedback</span>
-        <span class="lane-arrow rounded-lg bg-white px-3 py-2 ring-1 ring-slate-200">Awaiting&nbsp;Review</span>
-        <span class="lane-arrow rounded-lg bg-white px-3 py-2 ring-1 ring-slate-200">Done</span>
+        <p class="mt-4 text-lg text-slate-600">Hand off a task, point it at your project, schedule it — then watch it move itself to Done.</p>
       </div>
 
       <!-- Split feature rows -->
@@ -235,9 +236,9 @@
           <div class="md:order-2">
             <div class="text-xs font-semibold uppercase tracking-wide text-brand">Connect</div>
             <h3 class="mt-2 text-xl font-bold tracking-tight">Bring your own agents</h3>
-            <p class="mt-3 text-sm leading-relaxed text-slate-600">Claude, OpenCode, Copilot CLI, or your own — wire integrations and machines once. Myra spawns the agent headless and streams its output live onto the card.</p>
+            <p class="mt-3 text-sm leading-relaxed text-slate-600">OpenCode works out of the box — detected and installed in one click. Bring any other CLI agent through a custom preset, or run local models with Ollama. Myra spawns it headless and streams its output live onto the card.</p>
           </div>
-          <img src="assets/screens/integrations-panel.png" alt="Integrations panel" loading="lazy"
+          <img src="assets/screens/settings-agents.png" alt="Agent presets — binary, args template and working directory" loading="lazy"
                class="w-full rounded-xl ring-1 ring-slate-200 shadow-lg shadow-slate-900/5 md:order-1" />
         </div>
 
@@ -245,39 +246,90 @@
           <div>
             <div class="text-xs font-semibold uppercase tracking-wide text-brand">Schedule</div>
             <h3 class="mt-2 text-xl font-bold tracking-tight">Run on cron</h3>
-            <p class="mt-3 text-sm leading-relaxed text-slate-600">Plan recurring runs from the day planner; cards advance through the lanes as agents report — no babysitting required.</p>
+            <p class="mt-3 text-sm leading-relaxed text-slate-600">Set recurring or cron-triggered runs; cards materialize and advance through the lanes as agents report — no babysitting required.</p>
           </div>
-          <img src="assets/screens/nav-day-planner.png" alt="Day planner" loading="lazy"
+          <img src="assets/screens/schedules.png" alt="Schedules view" loading="lazy"
                class="w-full rounded-xl ring-1 ring-slate-200 shadow-lg shadow-slate-900/5" />
         </div>
       </div>
 
       <!-- Use cases -->
       <div class="mx-auto mt-20 max-w-2xl text-center">
-        <h3 class="text-2xl font-bold tracking-tight md:text-3xl">What you'll run</h3>
-        <p class="mt-3 text-base text-slate-600">Real jobs people hand to Myra every day.</p>
+        <h3 class="text-2xl font-bold tracking-tight md:text-3xl">The repetitive work you'll hand off</h3>
+        <p class="mt-3 text-base text-slate-600">Recurring chores you'd rather not do by hand — set once, then they just run.</p>
       </div>
 
       <div class="mt-10 grid gap-5 md:grid-cols-3">
         <div class="rounded-2xl bg-white p-6 ring-1 ring-slate-200">
-          <div class="text-xs font-semibold uppercase tracking-wide text-brand">Nightly maintenance</div>
-          <div class="mt-2 text-base font-bold">Dependency upgrades</div>
-          <p class="mt-2 text-sm leading-relaxed text-slate-600">Schedule a card to bump deps, run the test suite, and open a PR while you sleep.</p>
+          <div class="text-xs font-semibold uppercase tracking-wide text-brand">Every weekday · 8am</div>
+          <div class="mt-2 text-base font-bold">Daily change digest</div>
+          <p class="mt-2 text-sm leading-relaxed text-slate-600">Summarize the last 24h — merged PRs, fixes, risky changes — and post it to Slack before standup.</p>
+          <code class="mt-4 block rounded-lg bg-ink px-3 py-2 font-mono text-xs text-emerald-300">cron: "0 8 * * 1-5"</code>
+        </div>
+        <div class="rounded-2xl bg-white p-6 ring-1 ring-slate-200">
+          <div class="text-xs font-semibold uppercase tracking-wide text-brand">Every night</div>
+          <div class="mt-2 text-base font-bold">Dependency &amp; vuln sweep</div>
+          <p class="mt-2 text-sm leading-relaxed text-slate-600">Scan for outdated or vulnerable packages, bump them, run the tests, and open a PR — while you sleep.</p>
           <code class="mt-4 block rounded-lg bg-ink px-3 py-2 font-mono text-xs text-emerald-300">cron: "0 3 * * *"</code>
         </div>
         <div class="rounded-2xl bg-white p-6 ring-1 ring-slate-200">
-          <div class="text-xs font-semibold uppercase tracking-wide text-brand">On every PR</div>
-          <div class="mt-2 text-base font-bold">Automated review</div>
-          <p class="mt-2 text-sm leading-relaxed text-slate-600">A card watches for new pull requests and posts a structured review with findings.</p>
-          <code class="mt-4 block rounded-lg bg-ink px-3 py-2 font-mono text-xs text-emerald-300">agent: claude · review</code>
-        </div>
-        <div class="rounded-2xl bg-white p-6 ring-1 ring-slate-200">
-          <div class="text-xs font-semibold uppercase tracking-wide text-brand">Across repos</div>
-          <div class="mt-2 text-base font-bold">Multi-repo refactor</div>
-          <p class="mt-2 text-sm leading-relaxed text-slate-600">Fan one prompt out to several working directories and track each on its own card.</p>
-          <code class="mt-4 block rounded-lg bg-ink px-3 py-2 font-mono text-xs text-emerald-300">dirs: app, shared, hub</code>
+          <div class="text-xs font-semibold uppercase tracking-wide text-brand">Around the clock</div>
+          <div class="mt-2 text-base font-bold">Production error triage</div>
+          <p class="mt-2 text-sm leading-relaxed text-slate-600">Cluster new Sentry errors, find the root cause, and land a safe fix or post the analysis.</p>
+          <code class="mt-4 block rounded-lg bg-ink px-3 py-2 font-mono text-xs text-emerald-300">cron: "*/30 * * * *"</code>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- Roadmap / Coming soon -->
+  <section id="roadmap" class="border-y border-slate-200 bg-white">
+    <div class="mx-auto max-w-6xl px-5 py-20 md:py-28">
+      <div class="mx-auto max-w-2xl text-center">
+        <span class="inline-flex items-center gap-2 rounded-full border border-brand/30 bg-brand/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-brand">Coming soon</span>
+        <h2 class="mt-4 text-3xl font-bold tracking-tight md:text-4xl">What's coming next</h2>
+        <p class="mt-4 text-lg text-slate-600">A few capabilities are parked while we polish them, and more are on the way. Today Myra runs fully local on your own machine — everything below is planned or in exploration, opt-in and never at the cost of local-first.</p>
+      </div>
+
+      <div class="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div class="relative rounded-2xl border border-dashed border-slate-300 bg-slate-50/60 p-6">
+          <span class="absolute right-4 top-4 rounded-full bg-slate-200 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-slate-500">Planned</span>
+          <div class="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-brand/10 text-brand">⤢</div>
+          <h3 class="font-semibold">Remote access</h3>
+          <p class="mt-2 text-sm leading-relaxed text-slate-600">Check your board and kick off runs from your phone or any browser, while the agents keep running on the machine back home.</p>
+        </div>
+        <div class="relative rounded-2xl border border-dashed border-slate-300 bg-slate-50/60 p-6">
+          <span class="absolute right-4 top-4 rounded-full bg-slate-200 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-slate-500">Planned</span>
+          <div class="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-brand/10 text-brand">☁</div>
+          <h3 class="font-semibold">Managed cloud sync</h3>
+          <p class="mt-2 text-sm leading-relaxed text-slate-600">An optional hosted relay keeps your devices in sync without self-hosting. Opt-in only — your local-first setup stays exactly as it is.</p>
+        </div>
+        <div class="relative rounded-2xl border border-dashed border-slate-300 bg-slate-50/60 p-6">
+          <span class="absolute right-4 top-4 rounded-full bg-slate-200 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-slate-500">Planned</span>
+          <div class="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-brand/10 text-brand">⇄</div>
+          <h3 class="font-semibold">Integrations &amp; webhooks</h3>
+          <p class="mt-2 text-sm leading-relaxed text-slate-600">Fire Slack messages and webhooks as cards reach Review, Feedback, or Done. Temporarily parked while we rework it.</p>
+        </div>
+        <div class="relative rounded-2xl border border-dashed border-slate-300 bg-slate-50/60 p-6">
+          <span class="absolute right-4 top-4 rounded-full bg-slate-200 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-slate-500">Planned</span>
+          <div class="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-brand/10 text-brand">▤</div>
+          <h3 class="font-semibold">Day Planner</h3>
+          <p class="mt-2 text-sm leading-relaxed text-slate-600">Describe your goals in plain language and let Myra turn them into a board of scheduled tasks. Coming back after a redesign.</p>
+        </div>
+        <div class="relative rounded-2xl border border-dashed border-slate-300 bg-slate-50/60 p-6">
+          <span class="absolute right-4 top-4 rounded-full bg-slate-200 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-slate-500">Exploring</span>
+          <div class="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-brand/10 text-brand">⊞</div>
+          <h3 class="font-semibold">Plugin manager</h3>
+          <p class="mt-2 text-sm leading-relaxed text-slate-600">Browse, enable, and configure runtime plugins right from Settings — the open agent ecosystem, one click away.</p>
+        </div>
+        <div class="relative rounded-2xl border border-dashed border-slate-300 bg-slate-50/60 p-6">
+          <span class="absolute right-4 top-4 rounded-full bg-slate-200 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-slate-500">Exploring</span>
+          <div class="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-brand/10 text-brand">⚇</div>
+          <h3 class="font-semibold">Shared boards</h3>
+          <p class="mt-2 text-sm leading-relaxed text-slate-600">Hand a board to your team, assign cards, and see who's running what — for when one colony of agents isn't enough.</p>
+        </div>
+      </div>
+      <p class="mt-8 text-center text-sm text-slate-500">Want to shape what ships next? <a class="underline hover:text-slate-700" href="https://github.com/Myra-Agents/Myra-Agents/issues">Open an issue on GitHub</a>.</p>
     </div>
   </section>
 
@@ -370,7 +422,7 @@
         <span>MIT · © 2026 Leaptech</span>
       </div>
     </div>
-    <p class="pb-8 text-center text-xs text-slate-400">Myra is Swedish for <em>ant</em> — build your colony of Agents to achieve your goals.</p>
+    <p class="mx-auto max-w-2xl px-5 pb-8 text-center text-xs text-slate-400"><em>Myra</em> is Swedish for <em>ant</em> — one agent is a single worker; your setup is the colony, many running in parallel, quietly doing the work you'd rather not. Our mission: <span class="text-slate-500">free everyone from repetitive work.</span></p>
   </footer>
 
   <script>
