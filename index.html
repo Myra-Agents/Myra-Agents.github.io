@@ -212,16 +212,36 @@
     <div class="mx-auto max-w-6xl px-5 py-20 md:py-28">
       <div class="mx-auto max-w-2xl text-center">
         <h2 class="text-3xl font-bold tracking-tight md:text-4xl">How it works</h2>
-        <p class="mt-4 text-lg text-slate-600">Hand off an operation, point it at your project, put it on patrol — then watch it move itself to Done.</p>
+        <p class="mt-4 text-lg text-slate-600">Set up your agents, deploy patrols, watch operations move themselves to Done — every past run measured in History.</p>
       </div>
 
       <!-- Split feature rows -->
       <div class="mx-auto mt-16 flex max-w-5xl flex-col gap-14">
         <div class="grid items-center gap-8 md:grid-cols-2">
           <div>
-            <div class="text-xs font-semibold uppercase tracking-wide text-brand">Write</div>
-            <h3 class="mt-2 text-xl font-bold tracking-tight">An operation carries a prompt</h3>
-            <p class="mt-3 text-sm leading-relaxed text-slate-600">Add an operation with a prompt, pick an agent preset and a working directory. It waits in the Backlog until you launch it.</p>
+            <div class="text-xs font-semibold uppercase tracking-wide text-brand">1 · Set up</div>
+            <h3 class="mt-2 text-xl font-bold tracking-tight">Bring your own agents</h3>
+            <p class="mt-3 text-sm leading-relaxed text-slate-600">OpenCode works out of the box — detected and installed in one click. Bring any other CLI agent through a custom preset, or run local models with Ollama. Myra spawns it headless and streams its output live onto the operation.</p>
+          </div>
+          <img src="assets/screens/settings-agents.png" alt="Agent presets — binary, args template and working directory" loading="lazy"
+               class="w-full rounded-xl ring-1 ring-slate-200 shadow-lg shadow-slate-900/5" />
+        </div>
+
+        <div class="grid items-center gap-8 md:grid-cols-2">
+          <div class="md:order-2">
+            <div class="text-xs font-semibold uppercase tracking-wide text-brand">2 · Patrol</div>
+            <h3 class="mt-2 text-xl font-bold tracking-tight">Deploy recurring patrols</h3>
+            <p class="mt-3 text-sm leading-relaxed text-slate-600">Put your agents on patrol — once, daily, weekly, on an interval, or by cron. Each patrol carries a prompt, an agent and a working directory, and fires on its own; no babysitting required.</p>
+          </div>
+          <img src="assets/screens/patrols.png" alt="Patrols view with recurring and cron-triggered agent runs" loading="lazy"
+               class="w-full rounded-xl ring-1 ring-slate-200 shadow-lg shadow-slate-900/5 md:order-1" />
+        </div>
+
+        <div class="grid items-center gap-8 md:grid-cols-2">
+          <div>
+            <div class="text-xs font-semibold uppercase tracking-wide text-brand">3 · Operate</div>
+            <h3 class="mt-2 text-xl font-bold tracking-tight">Watch operations move themselves</h3>
+            <p class="mt-3 text-sm leading-relaxed text-slate-600">Every run lands as an operation — List or Kanban. They advance on their own as agents report: Backlog → Running → Needs you → Done. Step in only when one needs you.</p>
           </div>
           <img src="assets/screens/kanban-board.png" alt="Operations Kanban view with Backlog, Running, Needs you and Done columns" loading="lazy"
                class="w-full rounded-xl ring-1 ring-slate-200 shadow-lg shadow-slate-900/5" />
@@ -229,22 +249,12 @@
 
         <div class="grid items-center gap-8 md:grid-cols-2">
           <div class="md:order-2">
-            <div class="text-xs font-semibold uppercase tracking-wide text-brand">Connect</div>
-            <h3 class="mt-2 text-xl font-bold tracking-tight">Bring your own agents</h3>
-            <p class="mt-3 text-sm leading-relaxed text-slate-600">OpenCode works out of the box — detected and installed in one click. Bring any other CLI agent through a custom preset, or run local models with Ollama. Myra spawns it headless and streams its output live onto the operation.</p>
+            <div class="text-xs font-semibold uppercase tracking-wide text-brand">4 · Review</div>
+            <h3 class="mt-2 text-xl font-bold tracking-tight">Every past run, measured</h3>
+            <p class="mt-3 text-sm leading-relaxed text-slate-600">History keeps the stats of every past operation — runs over time, success rate, duration and token usage — so you can see what your workforce got done and what it cost.</p>
           </div>
-          <img src="assets/screens/settings-agents.png" alt="Agent presets — binary, args template and working directory" loading="lazy"
+          <img src="assets/screens/history.png" alt="History view with total runs, success rate, runs-over-time chart and per-run stats" loading="lazy"
                class="w-full rounded-xl ring-1 ring-slate-200 shadow-lg shadow-slate-900/5 md:order-1" />
-        </div>
-
-        <div class="grid items-center gap-8 md:grid-cols-2">
-          <div>
-            <div class="text-xs font-semibold uppercase tracking-wide text-brand">Patrol</div>
-            <h3 class="mt-2 text-xl font-bold tracking-tight">Run on cron</h3>
-            <p class="mt-3 text-sm leading-relaxed text-slate-600">Deploy patrols — recurring or cron-triggered runs; operations materialize and advance on their own as agents report — no babysitting required.</p>
-          </div>
-          <img src="assets/screens/patrols.png" alt="Patrols view" loading="lazy"
-               class="w-full rounded-xl ring-1 ring-slate-200 shadow-lg shadow-slate-900/5" />
         </div>
       </div>
 
