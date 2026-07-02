@@ -18,13 +18,13 @@
   <meta property="og:title" content="Myra Agents — your AI workforce, running 24/7" />
   <meta property="og:description" content="Delegate the repetitive work you'd rather not do. Set up your AI agents once and they run on their own, on schedule, even while you sleep. A local-first desktop app — your machine, your keys." />
   <meta property="og:url" content="https://myra-agents.github.io" />
-  <meta property="og:image" content="https://myra-agents.github.io/assets/screens/kanban-board.png" />
-  <meta property="og:image:width" content="2560" />
-  <meta property="og:image:height" content="1720" />
+  <meta property="og:image" content="https://myra-agents.github.io/assets/screens/operations.png" />
+  <meta property="og:image:width" content="2800" />
+  <meta property="og:image:height" content="1800" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Myra Agents — your AI workforce, running 24/7" />
   <meta name="twitter:description" content="Delegate the repetitive work you'd rather not do. Put a team of AI agents to work for you — running on their own, on schedule, even while you sleep. Local-first, your keys." />
-  <meta name="twitter:image" content="https://myra-agents.github.io/assets/screens/kanban-board.png" />
+  <meta name="twitter:image" content="https://myra-agents.github.io/assets/screens/operations.png" />
 
   <!-- PostHog analytics: autocapture + session replay, tagged by environment. -->
   <script>
@@ -140,13 +140,8 @@
 
       <!-- Hero screenshot -->
       <div class="mx-auto mt-16 max-w-5xl">
-        <div class="overflow-hidden rounded-xl border border-white/10 bg-slate-900/60 shadow-2xl ring-1 ring-white/10 backdrop-blur">
-          <div class="flex items-center gap-1.5 border-b border-white/10 px-4 py-3">
-            <span class="h-3 w-3 rounded-full bg-red-400/80"></span>
-            <span class="h-3 w-3 rounded-full bg-yellow-400/80"></span>
-            <span class="h-3 w-3 rounded-full bg-green-400/80"></span>
-          </div>
-          <img src="assets/screens/kanban-board.png" alt="Myra Agents Kanban board with Draft, To Do, In Progress and Waiting lanes" class="w-full" />
+        <div class="overflow-hidden rounded-xl shadow-2xl ring-1 ring-white/10">
+          <img src="assets/screens/operations.png" alt="Myra Agents desktop app on macOS — Operations view with Backlog, Running, Needs you and Done counters over the list of agent runs" class="w-full" />
         </div>
       </div>
     </div>
@@ -164,7 +159,7 @@
       <div class="rounded-2xl border border-slate-200 p-6 transition hover:border-brand/40 hover:shadow-sm">
         <div class="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-brand/10 text-brand">▦</div>
         <h3 class="font-semibold">See where every task stands</h3>
-        <p class="mt-2 text-sm leading-relaxed text-slate-600">A native Kanban view of your agents. Cards move themselves: Draft → To Do → In Progress → Waiting Feedback → Awaiting Review → Done, driven by what the agent reports.</p>
+        <p class="mt-2 text-sm leading-relaxed text-slate-600">List or Kanban — see every operation at a glance. Cards move themselves: Backlog → Running → Needs you → Done, driven by what the agent reports.</p>
       </div>
       <div class="rounded-2xl border border-slate-200 p-6 transition hover:border-brand/40 hover:shadow-sm">
         <div class="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-brand/10 text-brand">⚙</div>
@@ -202,12 +197,12 @@
         <figcaption class="px-5 py-3 text-sm text-slate-600">Define agent presets — binary, args template, working directory.</figcaption>
       </figure>
       <figure class="overflow-hidden rounded-2xl border border-slate-200 bg-slate-50">
-        <img src="assets/screens/schedules.png" alt="Schedules view with recurring and cron-triggered runs" class="w-full" />
-        <figcaption class="px-5 py-3 text-sm text-slate-600">Schedule recurring runs — once, daily, weekly, on an interval, or cron.</figcaption>
+        <img src="assets/screens/patrols.png" alt="Patrols view with recurring and cron-triggered agent runs" class="w-full" />
+        <figcaption class="px-5 py-3 text-sm text-slate-600">Deploy patrols — recurring runs, daily, weekly, on an interval, or cron.</figcaption>
       </figure>
       <figure class="overflow-hidden rounded-2xl border border-slate-200 bg-slate-50">
-        <img src="assets/screens/logs.png" alt="Logs view with each run's full execution output and history" class="w-full" />
-        <figcaption class="px-5 py-3 text-sm text-slate-600">Every run's full output and history, kept on the card.</figcaption>
+        <img src="assets/screens/history.png" alt="History view with every past run — result, duration, agent and token usage" class="w-full" />
+        <figcaption class="px-5 py-3 text-sm text-slate-600">Every run's result, duration and token usage, kept in History.</figcaption>
       </figure>
     </div>
   </section>
@@ -226,7 +221,7 @@
           <div>
             <div class="text-xs font-semibold uppercase tracking-wide text-brand">Write</div>
             <h3 class="mt-2 text-xl font-bold tracking-tight">A card carries a prompt</h3>
-            <p class="mt-3 text-sm leading-relaxed text-slate-600">Add a card with a prompt, pick an agent preset and a working directory. Drafts live in their own lane until you launch them.</p>
+            <p class="mt-3 text-sm leading-relaxed text-slate-600">Add a card with a prompt, pick an agent preset and a working directory. It waits in the Backlog until you launch it.</p>
           </div>
           <img src="assets/screens/kanban-board.png" alt="Myra kanban board" loading="lazy"
                class="w-full rounded-xl ring-1 ring-slate-200 shadow-lg shadow-slate-900/5" />
@@ -246,9 +241,9 @@
           <div>
             <div class="text-xs font-semibold uppercase tracking-wide text-brand">Schedule</div>
             <h3 class="mt-2 text-xl font-bold tracking-tight">Run on cron</h3>
-            <p class="mt-3 text-sm leading-relaxed text-slate-600">Set recurring or cron-triggered runs; cards materialize and advance through the lanes as agents report — no babysitting required.</p>
+            <p class="mt-3 text-sm leading-relaxed text-slate-600">Deploy patrols — recurring or cron-triggered runs; operations materialize and advance on their own as agents report — no babysitting required.</p>
           </div>
-          <img src="assets/screens/schedules.png" alt="Schedules view" loading="lazy"
+          <img src="assets/screens/patrols.png" alt="Patrols view" loading="lazy"
                class="w-full rounded-xl ring-1 ring-slate-200 shadow-lg shadow-slate-900/5" />
         </div>
       </div>
