@@ -26,13 +26,46 @@ function SectionShell({
   );
 }
 
-/** Big Cursor-style feature card: demo on one side, copy on the other. */
+/**
+ * Cursor-style painterly panel — a demo window floating over a soft
+ * relief painting, with the painting showing as a frame around it.
+ */
+function PaintingPanel({
+  painting,
+  children,
+  className = "",
+}: {
+  painting: string;
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <div
+      className={`relative overflow-hidden rounded-2xl p-4 sm:p-6 md:p-8 ${className}`}
+    >
+      <Image
+        src={`/assets/paintings/${painting}.png`}
+        alt=""
+        fill
+        aria-hidden
+        className="absolute inset-0 -z-10 h-full w-full object-cover"
+      />
+      {/* Floating window */}
+      <div className="overflow-hidden rounded-xl bg-paper shadow-[0_30px_70px_-25px_rgb(38_37_30_/_0.5)] ring-1 ring-black/5">
+        {children}
+      </div>
+    </div>
+  );
+}
+
+/** Big Cursor-style feature card: floating demo on one side, copy on the other. */
 function DemoSection({
   title,
   lead,
   link,
   linkHref,
   demo,
+  painting,
   flip = false,
 }: {
   title: string;
@@ -40,26 +73,25 @@ function DemoSection({
   link: string;
   linkHref: string;
   demo: React.ReactNode;
+  painting: string;
   flip?: boolean;
 }) {
   return (
-    <div className="rounded-2xl bg-paper-2 p-4 sm:p-6 md:p-10">
-      <div className="grid items-center gap-8 md:grid-cols-5">
-        <div className={`md:col-span-3 ${flip ? "md:order-2" : ""}`}>
-          {demo}
-        </div>
-        <div className={`px-2 md:col-span-2 ${flip ? "md:order-1" : ""}`}>
-          <h3 className="text-2xl leading-snug tracking-tight md:text-[1.7rem]">
-            <span className="font-bold">{title}</span>{" "}
-            <span className="text-ink-55">{lead}</span>
-          </h3>
-          <a
-            href={linkHref}
-            className="mt-5 inline-flex items-center gap-1.5 text-sm font-bold text-accent transition hover:opacity-80"
-          >
-            {link} <ArrowRight className="h-4 w-4" />
-          </a>
-        </div>
+    <div className="grid items-center gap-8 md:grid-cols-5">
+      <div className={`md:col-span-3 ${flip ? "md:order-2" : ""}`}>
+        <PaintingPanel painting={painting}>{demo}</PaintingPanel>
+      </div>
+      <div className={`px-2 md:col-span-2 ${flip ? "md:order-1" : ""}`}>
+        <h3 className="text-2xl leading-snug tracking-tight md:text-[1.7rem]">
+          <span className="font-bold">{title}</span>{" "}
+          <span className="text-ink-55">{lead}</span>
+        </h3>
+        <a
+          href={linkHref}
+          className="mt-5 inline-flex items-center gap-1.5 text-sm font-bold text-accent transition hover:opacity-80"
+        >
+          {link} <ArrowRight className="h-4 w-4" />
+        </a>
       </div>
     </div>
   );
@@ -217,11 +249,22 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Flagship interactive demo */}
+        {/* Flagship interactive demo — floating over a painting */}
         <div className="rise-in mt-12" id="demos">
-          <WindowFrame title="Myra Agents — Runs">
-            <KanbanDemo />
-          </WindowFrame>
+          <div className="relative overflow-hidden rounded-3xl p-3 sm:p-6 md:p-12">
+            <Image
+              src="/assets/paintings/warm.png"
+              alt=""
+              fill
+              aria-hidden
+              className="absolute inset-0 -z-10 h-full w-full object-cover"
+            />
+            <div className="shadow-[0_40px_90px_-30px_rgb(38_37_30_/_0.55)]">
+              <WindowFrame title="Myra Agents — Runs">
+                <KanbanDemo />
+              </WindowFrame>
+            </div>
+          </div>
           <p className="mt-3 text-center text-xs text-ink-40">
             Live demo — launch the operation, answer its question, or just
             watch it work.
@@ -230,40 +273,31 @@ export default function Home() {
       </SectionShell>
 
       {/* Feature demo sections */}
-      <SectionShell className="flex flex-col gap-6 py-14 md:py-20" id="how">
+      <SectionShell className="flex flex-col gap-14 py-14 md:py-20" id="how">
         <DemoSection
+          painting="dusk"
           title="They patrol while you sleep."
           lead="Deploy patrols that fire once, daily, weekly, or by cron. Each carries a prompt, an agent and a working directory — no babysitting required."
           link="See what a patrol looks like"
           linkHref="#use-cases"
-          demo={
-            <div className="rounded-xl border border-line bg-paper p-1">
-              <PatrolDemo />
-            </div>
-          }
+          demo={<PatrolDemo />}
         />
         <DemoSection
           flip
+          painting="sand"
           title="Watch every run live."
           lead="Output streams onto the operation as it happens — and History keeps every run with its result, duration, tokens and cost."
           link="Explore the app"
           linkHref="#screens"
-          demo={
-            <div className="rounded-xl border border-line bg-paper p-1">
-              <LogsDemo />
-            </div>
-          }
+          demo={<LogsDemo />}
         />
         <DemoSection
+          painting="warm"
           title="Bring your own agent."
           lead="OpenCode works out of the box — detected and installed in one click. Ollama runs local models. Any other CLI agent plugs in through a custom preset."
           link="Read the docs on presets"
           linkHref="https://github.com/Myra-Agents/Myra-Agents#readme"
-          demo={
-            <div className="rounded-xl border border-line bg-paper p-1">
-              <AgentPickerDemo />
-            </div>
-          }
+          demo={<AgentPickerDemo />}
         />
       </SectionShell>
 
