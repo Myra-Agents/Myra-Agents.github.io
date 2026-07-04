@@ -1,0 +1,118 @@
+@import "tailwindcss";
+
+@theme {
+  /* Myra warm-paper palette — synced with the app's "myra" theme preset. */
+  --color-paper: #f7f7f4;
+  --color-paper-2: #f2f1ed;
+  --color-paper-3: #ebeae5;
+  --color-ink: #26251e;
+  --color-ink-70: rgb(38 37 30 / 0.7);
+  --color-ink-55: rgb(38 37 30 / 0.55);
+  --color-ink-40: rgb(38 37 30 / 0.4);
+  --color-accent: #f54e00;
+  --color-card: #fcfcfc;
+  --color-line: rgb(38 37 30 / 0.08);
+  --color-line-strong: rgb(38 37 30 / 0.14);
+
+  /* Operation status colors — same tokens as the app. */
+  --color-status-backlog: #888780;
+  --color-status-running: #ff6900;
+  --color-status-needs-you: #7f77dd;
+  --color-status-done: #639922;
+
+  --font-sans: var(--font-lato), ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-serif: var(--font-goudy), Georgia, "Times New Roman", serif;
+  --font-mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas,
+    "Liberation Mono", monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: rgb(245 78 0 / 0.18);
+}
+
+/* Scrollable but without a visible scrollbar (demo boards, code strips). */
+.scrollbar-none {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+/* ---- Demo animations ---------------------------------------------------- */
+
+@keyframes blink-caret {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+.demo-caret {
+  display: inline-block;
+  width: 7px;
+  height: 1em;
+  vertical-align: text-bottom;
+  background: currentColor;
+  animation: blink-caret 1s step-end infinite;
+}
+
+@keyframes pulse-dot {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgb(255 105 0 / 0.35);
+  }
+  50% {
+    box-shadow: 0 0 0 5px rgb(255 105 0 / 0);
+  }
+}
+
+.dot-running {
+  animation: pulse-dot 1.6s ease-out infinite;
+}
+
+@keyframes card-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.card-enter {
+  animation: card-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.rise-in {
+  animation: rise-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
