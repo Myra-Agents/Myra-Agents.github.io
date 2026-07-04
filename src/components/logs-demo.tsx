@@ -43,7 +43,7 @@ export function LogsDemo() {
   const finished = count >= LINES.length;
 
   return (
-    <div ref={ref} className="relative select-none p-4 sm:p-5">
+    <div ref={ref} className="relative min-h-[384px] select-none p-5 sm:p-7">
       <div className="rounded-xl bg-ink p-4 font-mono text-xs leading-relaxed text-[#d6d5cf] shadow-[0_1px_2px_rgb(38_37_30_/_0.1)]">
         <div className="mb-3 flex items-center gap-2 border-b border-white/10 pb-2 text-[10px] text-white/40">
           <span className="dot-running inline-block h-2 w-2 rounded-full bg-[#ff6900]" />

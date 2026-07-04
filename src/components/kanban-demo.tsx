@@ -3,7 +3,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
   Activity,
-  Bot,
   ClipboardCheck,
   CornerDownLeft,
   MessageSquare,
@@ -19,7 +18,6 @@ import { useInView } from "./use-in-view";
  * chrome, card anatomy and status blocks mirror the real Kanban view.
  * One operation runs the real lifecycle live: Backlog → Running →
  * Needs you (question) → Running → Needs you (review) → Done.
- * The List/Kanban toggle switches to the real list-view columns.
  */
 
 type Phase =
@@ -30,8 +28,6 @@ type Phase =
   | "resumed"
   | "review"
   | "done";
-
-type View = "list" | "kanban";
 
 const LOG_LINES = [
   "$ opencode run — digest of the last 24h",
@@ -97,7 +93,7 @@ function DemoCard({
 }) {
   return (
     <div
-      className={`group relative space-y-2 rounded-xl border border-line bg-card p-3 text-left shadow-[0_1px_2px_rgb(38_37_30_/_0.05)] transition-all duration-200 ${entering ? "card-enter" : ""} ${dimmed ? "opacity-60" : ""}`}
+      className={`group relative space-y-2.5 rounded-[10px] border border-line bg-card p-3.5 text-left shadow-[0_1px_2px_rgb(38_37_30_/_0.05)] transition-all duration-200 ${entering ? "card-enter" : ""} ${dimmed ? "opacity-60" : ""}`}
     >
       {actions && (
         <div className="absolute right-2.5 top-2.5 flex items-center gap-1.5 text-ink-40">
@@ -144,8 +140,8 @@ function Column({
   children?: React.ReactNode;
 }) {
   return (
-    <div className="flex min-w-[15rem] flex-1 basis-0 flex-col rounded-xl bg-ink/5 p-2">
-      <div className="px-2 pb-3 pt-1.5">
+    <div className="flex min-w-0 flex-1 basis-0 flex-col rounded-[10px] bg-ink/5 p-2.5">
+      <div className="px-2 pb-3.5 pt-2">
         <div className="flex items-center gap-2">
           <div
             className="h-2 w-2 rounded-full"
@@ -155,7 +151,7 @@ function Column({
         </div>
         <div className="pl-4 pt-0.5 text-[10px] text-ink-40">{sub}</div>
       </div>
-      <div className="flex min-h-[15rem] flex-1 flex-col gap-2">{children}</div>
+      <div className="flex min-h-[15rem] flex-1 flex-col gap-2.5">{children}</div>
     </div>
   );
 }
@@ -256,20 +252,10 @@ function QueuedBlock() {
   );
 }
 
-function AgentChip() {
-  return (
-    <span className="inline-flex items-center gap-1.5 rounded-md border border-line px-2 py-1 text-xs text-ink-70">
-      <Bot className="size-3.5" />
-      OpenCode
-    </span>
-  );
-}
-
 /* ── The scripted board ── */
 
 export function KanbanDemo() {
   const { ref, inView } = useInView<HTMLDivElement>(0.35);
-  const [view, setView] = useState<View>("kanban");
   const [phase, setPhase] = useState<Phase>("idle");
   const [logIdx, setLogIdx] = useState(0);
   const [seconds, setSeconds] = useState(0);
@@ -359,136 +345,38 @@ export function KanbanDemo() {
   const heroNeedsYou = phase === "question" || phase === "review";
   const lines = phase === "resumed" ? RESUME_LINES : LOG_LINES;
 
-  // Current bucket of every card — drives both views.
-  const heroBucket = heroInBacklog
-    ? { label: "Backlog", color: STATUS.backlog }
-    : heroRunning
-      ? { label: "Running", color: STATUS.running }
-      : heroNeedsYou
-        ? { label: "Needs you", color: STATUS.needsYou }
-        : { label: "Done", color: STATUS.done };
-
-  const LIST_ROWS = [
-    {
-      title: "Summarize repo changes since yesterday",
-      triggered: "just now",
-      bucket: heroBucket,
-      duration: phase === "done" ? "2m 14s" : heroRunning ? elapsed : "—",
-    },
-    {
-      title: "Refactor the settings panel into tabs",
-      triggered: "24 min ago",
-      bucket: sideDone
-        ? { label: "Done", color: STATUS.done }
-        : { label: "Running", color: STATUS.running },
-      duration: sideDone ? "24m 03s" : "23m 57s",
-    },
-    {
-      title: "Bump outdated dependencies",
-      triggered: "2 h ago",
-      bucket: { label: "Backlog", color: STATUS.backlog },
-      duration: "—",
-    },
-    {
-      title: "Extract hardcoded strings in the trash zone",
-      triggered: "yesterday",
-      bucket: { label: "Done", color: STATUS.done },
-      duration: "4m 51s",
-    },
-  ];
-
   return (
-    <div ref={ref} className="select-none">
-      {/* View header — Runs, working List/Kanban toggle */}
-      <div className="flex items-center justify-between border-b border-line px-4 py-2.5">
+    <div ref={ref} className="flex min-h-[688px] flex-col select-none">
+      {/* View header — Runs */}
+      <div className="flex items-center justify-between border-b border-line px-5 py-4">
         <div>
           <div className="text-sm font-semibold">Runs</div>
           <div className="text-[10px] text-ink-40">
             Lists all the running tasks
           </div>
         </div>
+        {/* Non-interactive List / Kanban indicator (Kanban active) */}
         <div className="flex items-center gap-3 text-xs">
-          <button
-            type="button"
-            onClick={() => setView("list")}
-            className={
-              view === "list" ? "font-semibold text-ink" : "text-ink-40"
-            }
-          >
-            List
-          </button>
-          <button
-            type="button"
-            onClick={() => setView("kanban")}
-            className={`border-l border-line pl-3 ${view === "kanban" ? "font-semibold text-ink" : "text-ink-40"}`}
-          >
+          <span className="text-ink-40">List</span>
+          <span className="border-l border-line pl-3 font-semibold text-ink">
             Kanban
-          </button>
+          </span>
         </div>
       </div>
 
       {/* Tags row */}
-      <div className="flex items-center justify-between px-4 pb-1 pt-3">
+      <div className="flex items-center justify-between px-5 pb-2 pt-4">
         <div className="flex items-center gap-2">
           <span className="text-xs text-ink-40">Tags</span>
           {["standup", "deps", "refactor"].map((t) => (
             <Tag key={t} label={t} />
           ))}
         </div>
-        <span className="text-[10px] text-ink-40">
-          Showing {LIST_ROWS.length} of {LIST_ROWS.length}
-        </span>
+        <span className="text-[10px] text-ink-40">Showing 4 of 4</span>
       </div>
 
-      {view === "list" ? (
-        /* ── List view — same columns as the app's Runs list ── */
-        <div className="scrollbar-none overflow-x-auto p-3 sm:p-4">
-          <table className="w-full min-w-[640px] border-collapse text-left">
-            <thead>
-              <tr className="border-b border-line text-[11px] text-ink-40">
-                <th className="pb-2 pl-1 font-normal">Task</th>
-                <th className="pb-2 font-normal">Triggered</th>
-                <th className="pb-2 font-normal">Status</th>
-                <th className="pb-2 font-normal">Duration</th>
-                <th className="pb-2 font-normal">Agent</th>
-              </tr>
-            </thead>
-            <tbody>
-              {LIST_ROWS.map((r) => (
-                <tr
-                  key={r.title}
-                  className="border-b border-line transition-colors hover:bg-paper-3/40"
-                >
-                  <td className="max-w-[280px] truncate py-2.5 pl-1 pr-3 text-sm text-ink">
-                    {r.title}
-                  </td>
-                  <td className="whitespace-nowrap py-2.5 pr-3 text-xs text-ink-55">
-                    {r.triggered}
-                  </td>
-                  <td className="py-2.5 pr-3">
-                    <span className="flex items-center gap-2 text-xs text-ink">
-                      <span
-                        className="size-2 rounded-full"
-                        style={{ backgroundColor: r.bucket.color }}
-                      />
-                      {r.bucket.label}
-                    </span>
-                  </td>
-                  <td className="whitespace-nowrap py-2.5 pr-3 text-xs tabular-nums text-ink-55">
-                    {r.duration}
-                  </td>
-                  <td className="py-2.5">
-                    <AgentChip />
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      ) : (
-        /* ── Kanban view ── */
-        <div className="scrollbar-none relative overflow-x-auto p-3 sm:p-4">
-          <div className="flex min-w-[960px] gap-3">
+      {/* ── Kanban board — columns stretch to fill the whole window ── */}
+      <div className="scrollbar-none relative flex flex-1 items-stretch gap-3 overflow-x-auto p-4 sm:p-6">
             <Column name="Backlog" sub="Next tasks" color={STATUS.backlog}>
               {heroInBacklog && (
                 <DemoCard entering={phase === "idle"} actions>
@@ -617,9 +505,8 @@ export function KanbanDemo() {
                 <Footer tags={["i18n"]} />
               </DemoCard>
             </Column>
-          </div>
 
-          {phase === "done" && (
+        {phase === "done" && (
             <button
               type="button"
               onClick={replay}
@@ -629,7 +516,6 @@ export function KanbanDemo() {
             </button>
           )}
         </div>
-      )}
-    </div>
+      </div>
   );
 }

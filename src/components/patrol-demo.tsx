@@ -146,9 +146,9 @@ export function PatrolDemo() {
   );
 
   return (
-    <div ref={ref} className="select-none">
+    <div ref={ref} className="min-h-[420px] select-none">
       {/* View header */}
-      <div className="flex items-center justify-between border-b border-line px-4 py-2.5">
+      <div className="flex items-center justify-between border-b border-line px-5 py-4">
         <div>
           <div className="text-sm font-semibold">Patrols</div>
           <div className="text-[10px] text-ink-40">
@@ -161,7 +161,7 @@ export function PatrolDemo() {
         </span>
       </div>
 
-      <div className="scrollbar-none overflow-x-auto p-3 sm:p-4">
+      <div className="scrollbar-none overflow-x-auto p-4 sm:p-6">
         <table className="w-full min-w-[560px] border-collapse text-left">
           <thead>
             <tr className="border-b border-line text-[11px] text-ink-40">
@@ -181,7 +181,7 @@ export function PatrolDemo() {
                   key={p.id}
                   className={`border-b border-line transition-colors hover:bg-paper-3/40 ${on ? "" : "opacity-60"}`}
                 >
-                  <td className="py-2.5 pl-1 pr-3">
+                  <td className="py-3 pl-1 pr-3">
                     <div className="flex items-center gap-3">
                       <Switch
                         checked={on}
@@ -197,10 +197,10 @@ export function PatrolDemo() {
                       </div>
                     </div>
                   </td>
-                  <td className="py-2.5 pr-3">
+                  <td className="py-3 pr-3">
                     <AgentChip />
                   </td>
-                  <td className="py-2.5 pr-3">
+                  <td className="py-3 pr-3">
                     <div className="flex flex-wrap items-center gap-1.5">
                       {p.tags.map((tag) => (
                         <span
@@ -212,7 +212,7 @@ export function PatrolDemo() {
                       ))}
                     </div>
                   </td>
-                  <td className="py-2.5 pr-3">
+                  <td className="py-3 pr-3">
                     {on ? (
                       <div className="flex flex-col">
                         <span className="whitespace-nowrap text-xs text-ink">
@@ -226,7 +226,7 @@ export function PatrolDemo() {
                       <span className="text-xs text-ink-40">—</span>
                     )}
                   </td>
-                  <td className="py-2.5">
+                  <td className="py-3">
                     <button
                       type="button"
                       onClick={() => runNow(p.id)}

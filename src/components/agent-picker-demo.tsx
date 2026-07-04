@@ -65,7 +65,7 @@ export function AgentPickerDemo() {
     "h-7 w-full rounded-md border border-line bg-card px-2 text-xs text-ink outline-none transition focus:border-line-strong";
 
   return (
-    <div className="select-none p-4 sm:p-5">
+    <div className="min-h-[470px] select-none p-5 sm:p-7">
       {/* Preset switcher */}
       <div className="mb-3 flex flex-wrap gap-1.5">
         {PRESETS.map((p) => (

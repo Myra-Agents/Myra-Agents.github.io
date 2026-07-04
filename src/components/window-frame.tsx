@@ -10,7 +10,7 @@ export function WindowFrame({
 }) {
   return (
     <div
-      className={`overflow-hidden rounded-xl border border-line-strong bg-paper shadow-[0_24px_60px_-24px_rgb(38_37_30_/_0.25)] ${className}`}
+      className={`overflow-hidden rounded-[10px] border border-line-strong bg-paper shadow-[0_24px_60px_-24px_rgb(38_37_30_/_0.25)] ${className}`}
     >
       <div className="relative flex h-9 items-center border-b border-line bg-paper-2 px-4">
         <div className="flex items-center gap-2">

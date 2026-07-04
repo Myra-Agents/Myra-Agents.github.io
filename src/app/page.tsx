@@ -27,38 +27,32 @@ function SectionShell({
 }
 
 /**
- * Cursor-style painterly panel — a demo window floating over a soft
- * relief painting, with the painting showing as a frame around it.
+ * Fixed-size painting layer. The image is a constant 1400×900 anchored to
+ * the top, NOT `fill` — so it never re-crops when the demo inside changes
+ * height (which made the background visibly shift). A paper fallback fills
+ * any area past the image edge.
  */
-function PaintingPanel({
-  painting,
-  children,
-  className = "",
-}: {
-  painting: string;
-  children: React.ReactNode;
-  className?: string;
-}) {
+function PaintingBackdrop({ src }: { src: string }) {
   return (
-    <div
-      className={`relative overflow-hidden rounded-2xl p-4 sm:p-6 md:p-8 ${className}`}
-    >
+    <div className="pointer-events-none absolute inset-0 -z-20 overflow-hidden bg-paper-2">
       <Image
-        src={`/assets/paintings/${painting}.png`}
+        src={`/assets/paintings/${src}`}
         alt=""
-        fill
+        width={1400}
+        height={900}
         aria-hidden
-        className="absolute inset-0 -z-10 h-full w-full object-cover"
+        className="absolute left-1/2 top-0 h-[900px] w-[1400px] max-w-none -translate-x-1/2 object-cover"
       />
-      {/* Floating window */}
-      <div className="overflow-hidden rounded-xl bg-paper shadow-[0_30px_70px_-25px_rgb(38_37_30_/_0.5)] ring-1 ring-black/5">
-        {children}
-      </div>
     </div>
   );
 }
 
-/** Big Cursor-style feature card: floating demo on one side, copy on the other. */
+/**
+ * Big Cursor-style feature card, split cleanly in two: a copy half on a
+ * flat, uniform paper panel, and a demo half where the floating window
+ * sits over the brutalist painting. No scrim — the divide is a hard edge,
+ * so the text never sits on the painting.
+ */
 function DemoSection({
   title,
   lead,
@@ -73,15 +67,20 @@ function DemoSection({
   link: string;
   linkHref: string;
   demo: React.ReactNode;
+  /** Full filename inside /assets/paintings, e.g. "brutalist1.webp". */
   painting: string;
   flip?: boolean;
 }) {
   return (
-    <div className="grid items-center gap-8 md:grid-cols-5">
-      <div className={`md:col-span-3 ${flip ? "md:order-2" : ""}`}>
-        <PaintingPanel painting={painting}>{demo}</PaintingPanel>
-      </div>
-      <div className={`px-2 md:col-span-2 ${flip ? "md:order-1" : ""}`}>
+    <div className="grid overflow-hidden rounded-[10px] border border-line md:grid-cols-5">
+      {/* Copy half — flat uniform panel */}
+      <div
+        className={`flex flex-col justify-center bg-paper-2 p-8 sm:p-10 md:col-span-2 md:p-14 ${
+          flip
+            ? "md:order-2 md:border-l md:border-line"
+            : "md:border-r md:border-line"
+        }`}
+      >
         <h3 className="text-2xl leading-snug tracking-tight md:text-[1.7rem]">
           <span className="font-bold">{title}</span>{" "}
           <span className="text-ink-55">{lead}</span>
@@ -92,6 +91,16 @@ function DemoSection({
         >
           {link} <ArrowRight className="h-4 w-4" />
         </a>
+      </div>
+
+      {/* Demo half — floating window over the painting */}
+      <div
+        className={`relative flex items-center p-6 sm:p-10 md:col-span-3 md:p-14 ${flip ? "md:order-1" : ""}`}
+      >
+        <PaintingBackdrop src={painting} />
+        <div className="w-full overflow-hidden rounded-[10px] border border-black/5 bg-paper shadow-[0_30px_70px_-25px_rgb(38_37_30_/_0.55)]">
+          {demo}
+        </div>
       </div>
     </div>
   );
@@ -251,14 +260,8 @@ export default function Home() {
 
         {/* Flagship interactive demo — floating over a painting */}
         <div className="rise-in mt-12" id="demos">
-          <div className="relative overflow-hidden rounded-3xl p-3 sm:p-6 md:p-12">
-            <Image
-              src="/assets/paintings/warm.png"
-              alt=""
-              fill
-              aria-hidden
-              className="absolute inset-0 -z-10 h-full w-full object-cover"
-            />
+          <div className="relative overflow-hidden rounded-[10px] border border-line p-4 sm:p-8 md:p-14">
+            <PaintingBackdrop src="brutalist1.webp" />
             <div className="shadow-[0_40px_90px_-30px_rgb(38_37_30_/_0.55)]">
               <WindowFrame title="Myra Agents — Runs">
                 <KanbanDemo />
@@ -275,7 +278,7 @@ export default function Home() {
       {/* Feature demo sections */}
       <SectionShell className="flex flex-col gap-14 py-14 md:py-20" id="how">
         <DemoSection
-          painting="dusk"
+          painting="brutalist4.jpg"
           title="They patrol while you sleep."
           lead="Deploy patrols that fire once, daily, weekly, or by cron. Each carries a prompt, an agent and a working directory — no babysitting required."
           link="See what a patrol looks like"
@@ -284,7 +287,7 @@ export default function Home() {
         />
         <DemoSection
           flip
-          painting="sand"
+          painting="brutalist2.jpeg"
           title="Watch every run live."
           lead="Output streams onto the operation as it happens — and History keeps every run with its result, duration, tokens and cost."
           link="Explore the app"
@@ -292,7 +295,7 @@ export default function Home() {
           demo={<LogsDemo />}
         />
         <DemoSection
-          painting="warm"
+          painting="brutalist3.jpeg"
           title="Bring your own agent."
           lead="OpenCode works out of the box — detected and installed in one click. Ollama runs local models. Any other CLI agent plugs in through a custom preset."
           link="Read the docs on presets"
