@@ -3,8 +3,25 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { RotateCcw } from "lucide-react";
 import { useInView } from "./use-in-view";
+import { useT } from "@/components/providers";
 
 /** Live-run terminal: the exec log of one operation, typed out line by line. */
+
+type Copy = {
+  streaming: string;
+  replay: string;
+};
+
+const COPY: { en: Copy; fr: Copy } = {
+  en: {
+    streaming: "streaming",
+    replay: "Replay",
+  },
+  fr: {
+    streaming: "en direct",
+    replay: "Rejouer",
+  },
+};
 
 const LINES: { text: string; cls?: string }[] = [
   { text: "$ myra run — Production error triage", cls: "text-white/60" },
@@ -20,6 +37,7 @@ const LINES: { text: string; cls?: string }[] = [
 ];
 
 export function LogsDemo() {
+  const t = useT(COPY);
   const { ref, inView } = useInView<HTMLDivElement>(0.35);
   const [count, setCount] = useState(0);
   const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
@@ -44,10 +62,10 @@ export function LogsDemo() {
 
   return (
     <div ref={ref} className="relative min-h-[384px] select-none p-5 sm:p-7">
-      <div className="rounded-xl bg-ink p-4 font-mono text-xs leading-relaxed text-[#d6d5cf] shadow-[0_1px_2px_rgb(38_37_30_/_0.1)]">
+      <div className="rounded-xl bg-terminal p-4 font-mono text-xs leading-relaxed text-[#d6d5cf] shadow-[0_1px_2px_rgb(38_37_30_/_0.1)]">
         <div className="mb-3 flex items-center gap-2 border-b border-white/10 pb-2 text-[10px] text-white/40">
           <span className="dot-running inline-block h-2 w-2 rounded-full bg-[#ff6900]" />
-          agent-runs/f3a91c.log — streaming
+          agent-runs/f3a91c.log — {t.streaming}
         </div>
         <div className="min-h-[15.5rem]">
           {LINES.slice(0, count).map((l) => (
@@ -64,7 +82,7 @@ export function LogsDemo() {
           onClick={play}
           className="absolute bottom-8 right-8 flex items-center gap-1.5 rounded-full border border-white/15 bg-white/10 px-3 py-1.5 text-[11px] font-semibold text-white/80 backdrop-blur transition hover:bg-white/15"
         >
-          <RotateCcw className="h-3 w-3" /> Replay
+          <RotateCcw className="h-3 w-3" /> {t.replay}
         </button>
       )}
     </div>

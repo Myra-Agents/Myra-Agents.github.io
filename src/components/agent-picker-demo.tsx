@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { CheckCircle2, Copy, FlaskConical, Trash2 } from "lucide-react";
+import { useT } from "@/components/providers";
 
 /**
  * Faithful recreation of an agent preset card from the app's
@@ -10,13 +11,15 @@ import { CheckCircle2, Copy, FlaskConical, Trash2 } from "lucide-react";
  * edit the fields — the spawned command updates as you type.
  */
 
+type BadgeKey = "installedV064" | "installedV210" | "localNoKey" | "installed";
+
 const PRESETS = [
   {
     id: "opencode",
     name: "OpenCode",
     binary: "opencode",
     args: 'run --print-logs "{prompt}"',
-    badge: "Installed · v0.6.4",
+    badge: "installedV064" as BadgeKey,
     tested: true,
   },
   {
@@ -24,7 +27,7 @@ const PRESETS = [
     name: "Claude Code",
     binary: "claude",
     args: '-p "{prompt}" --output-format stream-json',
-    badge: "Installed · v2.1.0",
+    badge: "installedV210" as BadgeKey,
     tested: true,
   },
   {
@@ -32,7 +35,7 @@ const PRESETS = [
     name: "Ollama · llama3.3",
     binary: "ollama",
     args: 'run llama3.3 "{prompt}"',
-    badge: "Local — no API key",
+    badge: "localNoKey" as BadgeKey,
     tested: false,
   },
   {
@@ -40,12 +43,64 @@ const PRESETS = [
     name: "My agent",
     binary: "your-agent",
     args: '--headless "{prompt}"',
-    badge: "Installed",
+    badge: "installed" as BadgeKey,
     tested: false,
   },
 ] as const;
 
+type Copy = {
+  badge: Record<BadgeKey, string>;
+  tested: string;
+  name: string;
+  binary: string;
+  advancedArgs: string;
+  argsTemplate: string;
+  argsHintBefore: string;
+  argsHintAfter: string;
+  testCommand: string;
+  footer: string;
+};
+
+const COPY: { en: Copy; fr: Copy } = {
+  en: {
+    badge: {
+      installedV064: "Installed · v0.6.4",
+      installedV210: "Installed · v2.1.0",
+      localNoKey: "Local — no API key",
+      installed: "Installed",
+    },
+    tested: "Tested",
+    name: "Name",
+    binary: "Binary",
+    advancedArgs: "Advanced args",
+    argsTemplate: "Args template",
+    argsHintBefore: "Must contain ",
+    argsHintAfter: " — replaced with the card's prompt at launch.",
+    testCommand: "Test command",
+    footer: "Agent- and LLM-agnostic — any CLI binary, no lock-in.",
+  },
+  fr: {
+    badge: {
+      installedV064: "Installé · v0.6.4",
+      installedV210: "Installé · v2.1.0",
+      localNoKey: "Local — sans clé API",
+      installed: "Installé",
+    },
+    tested: "Testé",
+    name: "Nom",
+    binary: "Binaire",
+    advancedArgs: "Args avancés",
+    argsTemplate: "Modèle d'args",
+    argsHintBefore: "Doit contenir ",
+    argsHintAfter: " — remplacé par le prompt de la carte au lancement.",
+    testCommand: "Commande de test",
+    footer:
+      "Indépendant de l'agent et du LLM — n'importe quel binaire CLI, sans verrouillage.",
+  },
+};
+
 export function AgentPickerDemo() {
+  const t = useT(COPY);
   const [presetId, setPresetId] = useState<string>("opencode");
   const preset = PRESETS.find((p) => p.id === presetId) ?? PRESETS[0];
   const [name, setName] = useState<string>(preset.name);
@@ -89,14 +144,14 @@ export function AgentPickerDemo() {
         <div className="flex items-center justify-between">
           <div className="flex min-w-0 items-center gap-2">
             <span className="truncate text-sm font-semibold">{name}</span>
-            <span className="inline-flex h-5 shrink-0 items-center gap-1 rounded-4xl border border-green-500/30 bg-green-500/10 px-2 text-[10px] font-medium text-green-600">
+            <span className="inline-flex h-5 shrink-0 items-center gap-1 rounded-4xl border border-green-500/30 bg-green-500/10 px-2 text-[10px] font-medium text-green-600 dark:text-green-400">
               <CheckCircle2 className="size-3" />
-              {preset.badge}
+              {t.badge[preset.badge]}
             </span>
             {preset.tested && (
-              <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-green-100 px-1.5 py-0.5 text-[10px] font-medium text-green-700">
+              <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-green-100 px-1.5 py-0.5 text-[10px] font-medium text-green-700 dark:bg-green-900/30 dark:text-green-400">
                 <CheckCircle2 className="size-2.5" />
-                Tested
+                {t.tested}
               </span>
             )}
           </div>
@@ -109,7 +164,7 @@ export function AgentPickerDemo() {
         <div className="grid gap-2 md:grid-cols-2">
           <div className="space-y-1">
             <label htmlFor="demo-agent-name" className="text-xs text-ink-70">
-              Name
+              {t.name}
             </label>
             <input
               id="demo-agent-name"
@@ -120,7 +175,7 @@ export function AgentPickerDemo() {
           </div>
           <div className="space-y-1">
             <label htmlFor="demo-agent-binary" className="text-xs text-ink-70">
-              Binary
+              {t.binary}
             </label>
             <input
               id="demo-agent-binary"
@@ -133,7 +188,7 @@ export function AgentPickerDemo() {
 
         <div className="space-y-1">
           <div className="flex items-center justify-between">
-            <span className="text-xs text-ink-55">Advanced args</span>
+            <span className="text-xs text-ink-55">{t.advancedArgs}</span>
             <button
               type="button"
               role="switch"
@@ -149,7 +204,7 @@ export function AgentPickerDemo() {
           {showArgs && (
             <div className="space-y-1 pt-1">
               <label htmlFor="demo-agent-args" className="text-xs text-ink-70">
-                Args template
+                {t.argsTemplate}
               </label>
               <input
                 id="demo-agent-args"
@@ -159,9 +214,9 @@ export function AgentPickerDemo() {
                 className={`${inputCls} font-mono`}
               />
               <p className="text-xs text-ink-40">
-                Must contain{" "}
-                <code className="font-mono">{"{prompt}"}</code> — replaced with
-                the card&apos;s prompt at launch.
+                {t.argsHintBefore}
+                <code className="font-mono">{"{prompt}"}</code>
+                {t.argsHintAfter}
               </p>
             </div>
           )}
@@ -170,7 +225,7 @@ export function AgentPickerDemo() {
         <div className="pt-1">
           <span className="inline-flex items-center gap-1 text-[11px] text-ink-55">
             <FlaskConical className="size-3" />
-            Test command
+            {t.testCommand}
           </span>
           <p className="mt-1 break-all rounded-md bg-paper-3 px-2 py-1.5 font-mono text-[11px] text-ink-70">
             {testCmd}
@@ -178,9 +233,7 @@ export function AgentPickerDemo() {
         </div>
       </div>
 
-      <p className="mt-3 text-center text-[11px] text-ink-40">
-        Agent- and LLM-agnostic — any CLI binary, no lock-in.
-      </p>
+      <p className="mt-3 text-center text-[11px] text-ink-40">{t.footer}</p>
     </div>
   );
 }

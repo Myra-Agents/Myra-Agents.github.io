@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Lato, Sorts_Mill_Goudy } from "next/font/google";
 import Script from "next/script";
+import { Providers, themeInitScript } from "@/components/providers";
 import "./globals.css";
 
 const lato = Lato({
@@ -22,8 +23,12 @@ export const metadata: Metadata = {
   description:
     "Delegate the repetitive work. Myra Agents puts a whole team of AI agents to work for you — set them up once and they run on their own, on schedule, even while you sleep. Local-first on your own machine, your keys.",
   icons: {
-    icon: "/assets/favicon.png",
-    apple: "/assets/app-icon-dock.png",
+    // Theme-adaptive: black glyph on light browser chrome, white on dark.
+    icon: [
+      { url: "/assets/glyph-black.png", media: "(prefers-color-scheme: light)" },
+      { url: "/assets/glyph-white.png", media: "(prefers-color-scheme: dark)" },
+    ],
+    apple: "/assets/apple-touch.png",
   },
   openGraph: {
     type: "website",
@@ -52,9 +57,20 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${lato.variable} ${goudy.variable}`}>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${lato.variable} ${goudy.variable}`}
+    >
+      <head>
+        {/* Pre-paint: apply theme class + lang before first render (no FOUC). */}
+        <script
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: tiny inline theme bootstrap
+          dangerouslySetInnerHTML={{ __html: themeInitScript }}
+        />
+      </head>
       <body>
-        {children}
+        <Providers>{children}</Providers>
         {/* id must NOT be "posthog": <script id> becomes window.posthog via
             named access and the snippet would mistake the DOM element for
             its command queue. */}

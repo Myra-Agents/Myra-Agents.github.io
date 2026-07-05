@@ -2,12 +2,80 @@
 
 import { useEffect, useState } from "react";
 import { Check, Copy, Download } from "lucide-react";
+import { useT } from "@/components/providers";
 
 /**
  * Install section: one-command source setup + prebuilt downloads.
  * Detects the visitor's OS/arch and upgrades all links to the latest
  * GitHub release (static v0.3.0 fallback if the API is unreachable).
  */
+
+type Copy = {
+  heading: string;
+  subheading: string;
+  copy: string;
+  copied: string;
+  prereqs: string;
+  prereqsRustTauri: string;
+  tauriPrereqs: string;
+  contributors: string;
+  prebuilt: string;
+  otherBuildsBelow: string;
+  downloadFor: Record<string, string>;
+  see: string;
+  allReleases: string;
+  buildYourself: string;
+};
+
+const COPY: { en: Copy; fr: Copy } = {
+  en: {
+    heading: "Up and running in one command",
+    subheading:
+      "It clones every repo and wires the workspace together for you.",
+    copy: "Copy",
+    copied: "Copied!",
+    prereqs: "Prereqs:",
+    prereqsRustTauri: ", Rust toolchain + ",
+    tauriPrereqs: "Tauri v2 prerequisites",
+    contributors:
+      ". Open-source contributors get a working app without private access.",
+    prebuilt: "Prebuilt downloads",
+    otherBuildsBelow: "other builds below",
+    downloadFor: {
+      "mac-arm": "Download for macOS",
+      "mac-x64": "Download for macOS",
+      win: "Download for Windows",
+      linux: "Download for Linux",
+    },
+    see: "see",
+    allReleases: "all releases",
+    buildYourself: "Prefer to build it yourself? Use the command above.",
+  },
+  fr: {
+    heading: "Opérationnel en une commande",
+    subheading:
+      "Elle clone chaque dépôt et connecte l'espace de travail pour vous.",
+    copy: "Copier",
+    copied: "Copié !",
+    prereqs: "Prérequis :",
+    prereqsRustTauri: ", la chaîne d'outils Rust + les ",
+    tauriPrereqs: "prérequis Tauri v2",
+    contributors:
+      ". Les contributeurs open-source obtiennent une app fonctionnelle sans accès privé.",
+    prebuilt: "Téléchargements prêts",
+    otherBuildsBelow: "autres builds ci-dessous",
+    downloadFor: {
+      "mac-arm": "Télécharger pour macOS",
+      "mac-x64": "Télécharger pour macOS",
+      win: "Télécharger pour Windows",
+      linux: "Télécharger pour Linux",
+    },
+    see: "voir",
+    allReleases: "toutes les versions",
+    buildYourself:
+      "Vous préférez le compiler vous-même ? Utilisez la commande ci-dessus.",
+  },
+};
 
 const FALLBACK_BASE =
   "https://github.com/Myra-Agents/Myra-Agents/releases/download/v0.3.0/";
@@ -67,6 +135,7 @@ async function detectPlatform(): Promise<string | null> {
 }
 
 export function Install() {
+  const t = useT(COPY);
   const [copied, setCopied] = useState(false);
   const [urls, setUrls] = useState<Record<string, string>>(() => {
     const seed: Record<string, string> = {};
@@ -121,15 +190,13 @@ export function Install() {
     <section id="install" className="mx-auto max-w-6xl px-5 py-20 md:py-28">
       <div className="mx-auto max-w-3xl text-center">
         <h2 className="text-3xl font-bold tracking-tight md:text-4xl">
-          Up and running in one command
+          {t.heading}
         </h2>
-        <p className="mt-4 text-lg text-ink-55">
-          It clones every repo and wires the workspace together for you.
-        </p>
+        <p className="mt-4 text-lg text-ink-55">{t.subheading}</p>
       </div>
 
       <div className="mx-auto mt-10 max-w-3xl">
-        <div className="flex items-center justify-between gap-3 rounded-xl bg-ink px-4 py-3 font-mono text-sm text-paper">
+        <div className="flex items-center justify-between gap-3 rounded-xl bg-terminal px-4 py-3 font-mono text-sm text-terminal-fg">
           <code className="scrollbar-none overflow-x-auto whitespace-nowrap">
             {INSTALL_CMD}
           </code>
@@ -143,28 +210,28 @@ export function Install() {
             ) : (
               <Copy className="h-3 w-3" />
             )}
-            {copied ? "Copied!" : "Copy"}
+            {copied ? t.copied : t.copy}
           </button>
         </div>
         <p className="mt-3 text-center text-sm text-ink-40">
-          Prereqs:{" "}
+          {t.prereqs}{" "}
           <a href="https://bun.sh" className="underline hover:text-ink-70">
             bun
           </a>
-          , Rust toolchain +{" "}
+          {t.prereqsRustTauri}
           <a
             href="https://v2.tauri.app/start/prerequisites/"
             className="underline hover:text-ink-70"
           >
-            Tauri v2 prerequisites
+            {t.tauriPrereqs}
           </a>
-          . Open-source contributors get a working app without private access.
+          {t.contributors}
         </p>
       </div>
 
       <div className="mx-auto mt-14 max-w-3xl text-center">
         <h3 className="text-sm font-bold uppercase tracking-wide text-ink-40">
-          Prebuilt downloads
+          {t.prebuilt}
         </h3>
 
         {platform && (
@@ -174,10 +241,10 @@ export function Install() {
               className="inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3.5 text-base font-bold text-white shadow-sm transition hover:opacity-90"
             >
               <Download className="h-5 w-5" />
-              {LABEL[platform][0]}
+              {t.downloadFor[platform]}
             </a>
             <p className="mt-2 text-xs text-ink-40">
-              {LABEL[platform][1]} · other builds below
+              {LABEL[platform][1]} · {t.otherBuildsBelow}
             </p>
           </div>
         )}
@@ -235,14 +302,14 @@ export function Install() {
           </div>
         </div>
         <p className="mt-5 text-sm text-ink-40">
-          {version} · see{" "}
+          {version} · {t.see}{" "}
           <a
             href="https://github.com/Myra-Agents/Myra-Agents/releases/latest"
             className="underline hover:text-ink-70"
           >
-            all releases
+            {t.allReleases}
           </a>
-          . Prefer to build it yourself? Use the command above.
+          . {t.buildYourself}
         </p>
       </div>
     </section>

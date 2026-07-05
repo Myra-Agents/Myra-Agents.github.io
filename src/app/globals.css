@@ -1,20 +1,27 @@
 @import "tailwindcss";
 
-@theme {
-  /* Myra warm-paper palette — synced with the app's "myra" theme preset. */
-  --color-paper: #f7f7f4;
-  --color-paper-2: #f2f1ed;
-  --color-paper-3: #ebeae5;
-  --color-ink: #26251e;
-  --color-ink-70: rgb(38 37 30 / 0.7);
-  --color-ink-55: rgb(38 37 30 / 0.55);
-  --color-ink-40: rgb(38 37 30 / 0.4);
-  --color-accent: #f54e00;
-  --color-card: #fcfcfc;
-  --color-line: rgb(38 37 30 / 0.08);
-  --color-line-strong: rgb(38 37 30 / 0.14);
+/* Drive `dark:` utilities off a `.dark` class (toggle), not prefers-color-scheme. */
+@custom-variant dark (&:where(.dark, .dark *));
 
-  /* Operation status colors — same tokens as the app. */
+/* Tokens map to runtime CSS vars so the whole palette flips under `.dark`.
+   Colors identical in both themes (accent, status) stay literal. */
+@theme inline {
+  --color-paper: var(--paper);
+  --color-paper-2: var(--paper-2);
+  --color-paper-3: var(--paper-3);
+  --color-ink: var(--ink);
+  --color-ink-70: var(--ink-70);
+  --color-ink-55: var(--ink-55);
+  --color-ink-40: var(--ink-40);
+  --color-card: var(--card);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+
+  /* Fixed-dark code/terminal surface — stays dark in both themes. */
+  --color-terminal: var(--terminal);
+  --color-terminal-fg: var(--terminal-fg);
+
+  --color-accent: #f54e00;
   --color-status-backlog: #888780;
   --color-status-running: #ff6900;
   --color-status-needs-you: #7f77dd;
@@ -25,6 +32,39 @@
   --font-serif: var(--font-goudy), Georgia, "Times New Roman", serif;
   --font-mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas,
     "Liberation Mono", monospace;
+}
+
+/* Light — warm paper (app "myra" preset, light). */
+:root {
+  --paper: #f7f7f4;
+  --paper-2: #f2f1ed;
+  --paper-3: #ebeae5;
+  --ink: #26251e;
+  --ink-70: rgb(38 37 30 / 0.7);
+  --ink-55: rgb(38 37 30 / 0.55);
+  --ink-40: rgb(38 37 30 / 0.4);
+  --card: #fcfcfc;
+  --line: rgb(38 37 30 / 0.08);
+  --line-strong: rgb(38 37 30 / 0.14);
+  --terminal: #1c1b17;
+  --terminal-fg: #e8e7e2;
+}
+
+/* Dark — app "myra" preset, dark (canvas #141414, cards #181818, ink #e4e4e4). */
+.dark {
+  color-scheme: dark;
+  --paper: #141414;
+  --paper-2: #1a1a1a;
+  --paper-3: #242424;
+  --ink: #e4e4e4;
+  --ink-70: rgb(228 228 228 / 0.72);
+  --ink-55: rgb(228 228 228 / 0.55);
+  --ink-40: rgb(228 228 228 / 0.42);
+  --card: #181818;
+  --line: rgb(228 228 228 / 0.1);
+  --line-strong: rgb(228 228 228 / 0.2);
+  --terminal: #0c0c0c;
+  --terminal-fg: #e8e7e2;
 }
 
 html {
