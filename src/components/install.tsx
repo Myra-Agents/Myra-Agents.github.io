@@ -1,45 +1,28 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Check, Copy, Download } from "lucide-react";
+import { Download } from "lucide-react";
 import { useT } from "@/components/providers";
 
 /**
- * Install section: one-command source setup + prebuilt downloads.
- * Detects the visitor's OS/arch and upgrades all links to the latest
- * GitHub release (static v0.3.0 fallback if the API is unreachable).
+ * Prebuilt downloads. Detects the visitor's OS/arch and upgrades all links
+ * to the latest GitHub release (static v0.3.0 fallback if the API is
+ * unreachable).
  */
 
 type Copy = {
   heading: string;
   subheading: string;
-  copy: string;
-  copied: string;
-  prereqs: string;
-  prereqsRustTauri: string;
-  tauriPrereqs: string;
-  contributors: string;
-  prebuilt: string;
   otherBuildsBelow: string;
   downloadFor: Record<string, string>;
   see: string;
   allReleases: string;
-  buildYourself: string;
 };
 
 const COPY: { en: Copy; fr: Copy } = {
   en: {
-    heading: "Up and running in one command",
-    subheading:
-      "It clones every repo and wires the workspace together for you.",
-    copy: "Copy",
-    copied: "Copied!",
-    prereqs: "Prereqs:",
-    prereqsRustTauri: ", Rust toolchain + ",
-    tauriPrereqs: "Tauri v2 prerequisites",
-    contributors:
-      ". Open-source contributors get a working app without private access.",
-    prebuilt: "Prebuilt downloads",
+    heading: "Download the app",
+    subheading: "Grab the prebuilt build for your platform.",
     otherBuildsBelow: "other builds below",
     downloadFor: {
       "mac-arm": "Download for macOS",
@@ -49,20 +32,10 @@ const COPY: { en: Copy; fr: Copy } = {
     },
     see: "see",
     allReleases: "all releases",
-    buildYourself: "Prefer to build it yourself? Use the command above.",
   },
   fr: {
-    heading: "Opérationnel en une commande",
-    subheading:
-      "Elle clone chaque dépôt et connecte l'espace de travail pour vous.",
-    copy: "Copier",
-    copied: "Copié !",
-    prereqs: "Prérequis :",
-    prereqsRustTauri: ", la chaîne d'outils Rust + les ",
-    tauriPrereqs: "prérequis Tauri v2",
-    contributors:
-      ". Les contributeurs open-source obtiennent une app fonctionnelle sans accès privé.",
-    prebuilt: "Téléchargements prêts",
+    heading: "Téléchargez l'application",
+    subheading: "Récupérez le build prêt à l'emploi pour votre plateforme.",
     otherBuildsBelow: "autres builds ci-dessous",
     downloadFor: {
       "mac-arm": "Télécharger pour macOS",
@@ -72,8 +45,6 @@ const COPY: { en: Copy; fr: Copy } = {
     },
     see: "voir",
     allReleases: "toutes les versions",
-    buildYourself:
-      "Vous préférez le compiler vous-même ? Utilisez la commande ci-dessus.",
   },
 };
 
@@ -100,9 +71,6 @@ const LABEL: Record<string, [string, string]> = {
   win: ["Download for Windows", "x64 · .exe installer"],
   linux: ["Download for Linux", "x64 · AppImage"],
 };
-
-const INSTALL_CMD =
-  "curl -fsSL https://raw.githubusercontent.com/Myra-Agents/Myra-Agents-Dev/develop/install.sh | bash";
 
 async function detectPlatform(): Promise<string | null> {
   const nav = navigator as Navigator & {
@@ -136,7 +104,6 @@ async function detectPlatform(): Promise<string | null> {
 
 export function Install() {
   const t = useT(COPY);
-  const [copied, setCopied] = useState(false);
   const [urls, setUrls] = useState<Record<string, string>>(() => {
     const seed: Record<string, string> = {};
     for (const s in SUFFIX_FILE) seed[s] = FALLBACK_BASE + SUFFIX_FILE[s];
@@ -173,13 +140,6 @@ export function Install() {
     })();
   }, []);
 
-  const copy = () => {
-    navigator.clipboard.writeText(INSTALL_CMD).then(() => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 1600);
-    });
-  };
-
   const osCard = platform?.startsWith("mac") ? "mac" : platform;
   const dlBtn =
     "flex items-center justify-center rounded-lg bg-ink px-4 py-2.5 text-sm font-bold text-paper transition hover:opacity-85";
@@ -195,47 +155,9 @@ export function Install() {
         <p className="mt-4 text-lg text-ink-55">{t.subheading}</p>
       </div>
 
-      <div className="mx-auto mt-10 max-w-3xl">
-        <div className="flex items-center justify-between gap-3 rounded-xl bg-terminal px-4 py-3 font-mono text-sm text-terminal-fg">
-          <code className="scrollbar-none overflow-x-auto whitespace-nowrap">
-            {INSTALL_CMD}
-          </code>
-          <button
-            type="button"
-            onClick={copy}
-            className="flex shrink-0 items-center gap-1.5 rounded-md bg-white/10 px-2.5 py-1 font-sans text-xs font-bold transition hover:bg-white/20"
-          >
-            {copied ? (
-              <Check className="h-3 w-3" />
-            ) : (
-              <Copy className="h-3 w-3" />
-            )}
-            {copied ? t.copied : t.copy}
-          </button>
-        </div>
-        <p className="mt-3 text-center text-sm text-ink-40">
-          {t.prereqs}{" "}
-          <a href="https://bun.sh" className="underline hover:text-ink-70">
-            bun
-          </a>
-          {t.prereqsRustTauri}
-          <a
-            href="https://v2.tauri.app/start/prerequisites/"
-            className="underline hover:text-ink-70"
-          >
-            {t.tauriPrereqs}
-          </a>
-          {t.contributors}
-        </p>
-      </div>
-
-      <div className="mx-auto mt-14 max-w-3xl text-center">
-        <h3 className="text-sm font-bold uppercase tracking-wide text-ink-40">
-          {t.prebuilt}
-        </h3>
-
+      <div className="mx-auto mt-10 max-w-3xl text-center">
         {platform && (
-          <div className="mt-6">
+          <div>
             <a
               href={urls[KEY_SUFFIX[platform]]}
               className="inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3.5 text-base font-bold text-white shadow-sm transition hover:opacity-90"
@@ -285,10 +207,7 @@ export function Install() {
                 x64&nbsp;· AppImage
               </a>
               <div className="flex gap-2">
-                <a
-                  href={urls["_amd64.deb"]}
-                  className={`${dlBtnGhost} flex-1`}
-                >
+                <a href={urls["_amd64.deb"]} className={`${dlBtnGhost} flex-1`}>
                   .deb
                 </a>
                 <a
@@ -309,7 +228,7 @@ export function Install() {
           >
             {t.allReleases}
           </a>
-          . {t.buildYourself}
+          .
         </p>
       </div>
     </section>
