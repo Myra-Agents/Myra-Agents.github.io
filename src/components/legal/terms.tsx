@@ -3,7 +3,7 @@
 import { useT } from "@/components/providers";
 import { LegalSection, LegalShell } from "./shell";
 
-const CONTACT = "valentin.rudloff.perso@gmail.com";
+const CONTACT = "contact@myra-agents.com";
 const REPO = "https://github.com/Myra-Agents/Myra-Agents";
 
 const COPY = {

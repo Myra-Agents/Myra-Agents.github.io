@@ -5,7 +5,7 @@ import { useT } from "@/components/providers";
 import { LegalSection, LegalShell } from "./shell";
 
 const CNIL = "https://www.cnil.fr";
-const CONTACT = "valentin.rudloff.perso@gmail.com";
+const CONTACT = "contact@myra-agents.com";
 
 const COPY = {
   en: {

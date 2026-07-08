@@ -3,7 +3,7 @@
 import { useT } from "@/components/providers";
 import { LegalSection, LegalShell } from "./shell";
 
-const CONTACT = "valentin.rudloff.perso@gmail.com";
+const CONTACT = "contact@myra-agents.com";
 
 // REVIEW: legal address + SIRET/RCS for Leaptech are unknown — the
 // placeholders below must be completed with the real registration details.
