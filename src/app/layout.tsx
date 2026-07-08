@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Lato, Sorts_Mill_Goudy } from "next/font/google";
 import Script from "next/script";
+import { ConsentBanner } from "@/components/consent-banner";
 import { Providers, themeInitScript } from "@/components/providers";
 import "./globals.css";
 
@@ -70,7 +71,10 @@ export default function RootLayout({
         />
       </head>
       <body>
-        <Providers>{children}</Providers>
+        <Providers>
+          {children}
+          <ConsentBanner />
+        </Providers>
         {/* id must NOT be "posthog": <script id> becomes window.posthog via
             named access and the snippet would mistake the DOM element for
             its command queue. */}
@@ -85,8 +89,9 @@ posthog.init('phc_DnmcVLeGQzZKFKUMU5uUvayizSGJpLuwAETHVL6RCpxj', {
   capture_pageview: true,
   capture_exceptions: true,
   enable_recording_console_log: true,
-  disable_session_recording: false,
-  session_recording: { maskAllInputs: false },
+  opt_out_capturing_by_default: true,
+  disable_session_recording: true,
+  session_recording: { maskAllInputs: true },
 });
 posthog.register({ environment: MYRA_ENV, service: 'landing' });
 }`}
