@@ -5,10 +5,8 @@ import { LegalSection, LegalShell } from "./shell";
 
 const CONTACT = "contact@myra-agents.com";
 
-// REVIEW: legal address + SIRET/RCS for Leaptech are unknown — the
-// placeholders below must be completed with the real registration details.
-const ADDRESS = "[À COMPLÉTER — adresse]";
-const SIRET = "[À COMPLÉTER — SIRET]";
+const ADDRESS = "22 avenue de l'Orangerie, 95800 Cergy, France";
+const SIRET = "800 298 739 00023";
 
 const COPY = {
   en: {
