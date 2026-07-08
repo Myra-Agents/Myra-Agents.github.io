@@ -163,6 +163,9 @@ const COPY = {
     footer: {
       org: "GitHub org",
       repo: "App repo",
+      privacy: "Privacy",
+      legal: "Legal notice",
+      terms: "Terms",
       license: "MIT · © 2026 Leaptech",
       taglineName: "Myra",
       taglineMeaning: "ant",
@@ -311,6 +314,9 @@ const COPY = {
     footer: {
       org: "Organisation GitHub",
       repo: "Dépôt de l'app",
+      privacy: "Confidentialité",
+      legal: "Mentions légales",
+      terms: "CGU",
       license: "MIT · © 2026 Leaptech",
       taglineName: "Myra",
       taglineMeaning: "fourmi",
@@ -734,6 +740,15 @@ export default function Home() {
               className="transition hover:text-ink-70"
             >
               {t.footer.repo}
+            </a>
+            <a href="/privacy" className="transition hover:text-ink-70">
+              {t.footer.privacy}
+            </a>
+            <a href="/legal" className="transition hover:text-ink-70">
+              {t.footer.legal}
+            </a>
+            <a href="/terms" className="transition hover:text-ink-70">
+              {t.footer.terms}
             </a>
             <span>{t.footer.license}</span>
           </div>
