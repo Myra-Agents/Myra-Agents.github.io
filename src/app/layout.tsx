@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import { Lato, Sorts_Mill_Goudy } from "next/font/google";
 import Script from "next/script";
+import { ConsentBanner } from "@/components/consent-banner";
+import { JsonLd } from "@/components/json-ld";
 import { Providers, themeInitScript } from "@/components/providers";
+import { OG_IMAGE, SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 const lato = Lato({
@@ -19,9 +22,21 @@ const goudy = Sorts_Mill_Goudy({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: "Myra Agents — your AI workforce, running 24/7",
   description:
     "Delegate the repetitive work. Myra Agents puts a whole team of AI agents to work for you — set them up once and they run on their own, on schedule, even while you sleep. Local-first on your own machine, your keys.",
+  applicationName: "Myra Agents",
+  keywords: [
+    "AI agents",
+    "automation",
+    "local-first",
+    "desktop app",
+    "OpenCode",
+    "Ollama",
+    "cron",
+  ],
+  alternates: { canonical: "/" },
   icons: {
     // Theme-adaptive: black glyph on light browser chrome, white on dark.
     icon: [
@@ -35,10 +50,10 @@ export const metadata: Metadata = {
     title: "Myra Agents — your AI workforce, running 24/7",
     description:
       "Delegate the repetitive work. Set up your AI agents once and they run on their own, on schedule, even while you sleep. A local-first desktop app — your machine, your keys.",
-    url: "https://myra-agents.github.io",
+    url: SITE_URL,
     images: [
       {
-        url: "https://myra-agents.github.io/assets/screens/operations.png",
+        url: OG_IMAGE,
         width: 2800,
         height: 1800,
       },
@@ -49,7 +64,7 @@ export const metadata: Metadata = {
     title: "Myra Agents — your AI workforce, running 24/7",
     description:
       "Delegate the repetitive work. Put a team of AI agents to work for you — running on their own, on schedule, even while you sleep. Local-first, your keys.",
-    images: ["https://myra-agents.github.io/assets/screens/operations.png"],
+    images: [OG_IMAGE],
   },
 };
 
@@ -68,9 +83,13 @@ export default function RootLayout({
           // biome-ignore lint/security/noDangerouslySetInnerHtml: tiny inline theme bootstrap
           dangerouslySetInnerHTML={{ __html: themeInitScript }}
         />
+        <JsonLd />
       </head>
       <body>
-        <Providers>{children}</Providers>
+        <Providers>
+          {children}
+          <ConsentBanner />
+        </Providers>
         {/* id must NOT be "posthog": <script id> becomes window.posthog via
             named access and the snippet would mistake the DOM element for
             its command queue. */}
@@ -85,8 +104,9 @@ posthog.init('phc_DnmcVLeGQzZKFKUMU5uUvayizSGJpLuwAETHVL6RCpxj', {
   capture_pageview: true,
   capture_exceptions: true,
   enable_recording_console_log: true,
-  disable_session_recording: false,
-  session_recording: { maskAllInputs: false },
+  opt_out_capturing_by_default: true,
+  disable_session_recording: true,
+  session_recording: { maskAllInputs: true },
 });
 posthog.register({ environment: MYRA_ENV, service: 'landing' });
 }`}
