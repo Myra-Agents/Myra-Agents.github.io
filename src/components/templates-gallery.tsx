@@ -8,8 +8,8 @@ import { useT } from "@/components/providers";
  * `myra://patrol/new?template=<id>` — the app's deep-link handler (see the
  * app repo's `src-tauri/src/lib.rs`) routes that to the prefilled patrol editor
  * (`/schedules/edit/?template=<id>`). The ids MUST match live entries in the
- * app's `src/lib/schedule-ideas.ts` (`SCHEDULE_IDEAS`); an unknown id opens a
- * blank editor instead of the template, so only list templates shipped there.
+ * app's `src/lib/schedule-ideas.ts` (`SCHEDULE_IDEAS`); an unknown id won't
+ * resolve (the editor shows "not found"), so only list templates shipped there.
  */
 
 const DEEP_LINK = (id: string) => `myra://patrol/new?template=${id}`;
@@ -43,9 +43,6 @@ function tagHashIndex(tag: string): number {
  */
 const TEMPLATES = [
   { id: "sortMyComputer", tags: ["files", "organization"] },
-  { id: "dailyBrief", tags: ["brief", "github"] },
-  { id: "standupPrep", tags: ["standup", "slack"] },
-  { id: "weeklyReview", tags: ["review", "board"] },
 ] as const;
 
 type TemplateId = (typeof TEMPLATES)[number]["id"];
@@ -76,24 +73,6 @@ const COPY: {
           "Let the agent tidy a folder — group files by type, rename with a consistent scheme, and clear out duplicates and junk.",
         cadence: "Weekly · Monday 09:00",
       },
-      dailyBrief: {
-        name: "Daily brief",
-        description:
-          "A morning summary of overnight repo activity and the board: new commits, open PRs, failing checks, and cards waiting on you.",
-        cadence: "Daily · 09:00",
-      },
-      standupPrep: {
-        name: "Scrum daily prep",
-        description:
-          "Standup talking points ready before the meeting — what you shipped yesterday, what's next, and where you're blocked.",
-        cadence: "Weekdays · 08:45",
-      },
-      weeklyReview: {
-        name: "Weekly review",
-        description:
-          "An end-of-week board review: stale cards flagged, anything stuck in review surfaced, and next steps proposed for each.",
-        cadence: "Weekly · Monday 09:00",
-      },
     },
   },
   fr: {
@@ -105,24 +84,6 @@ const COPY: {
         name: "Ranger mon ordinateur",
         description:
           "Laissez l'agent ranger un dossier — regrouper les fichiers par type, les renommer proprement et supprimer doublons et fichiers inutiles.",
-        cadence: "Hebdo · lundi 09:00",
-      },
-      dailyBrief: {
-        name: "Brief quotidien",
-        description:
-          "Un résumé matinal de l'activité du dépôt et du tableau : nouveaux commits, PR ouvertes, checks en échec et cartes en attente.",
-        cadence: "Chaque jour · 09:00",
-      },
-      standupPrep: {
-        name: "Prépa du daily scrum",
-        description:
-          "Vos points de daily prêts avant la réunion — ce que vous avez livré hier, ce qui suit, et là où vous êtes bloqué.",
-        cadence: "En semaine · 08:45",
-      },
-      weeklyReview: {
-        name: "Revue hebdomadaire",
-        description:
-          "Une revue du tableau en fin de semaine : cartes inactives signalées, blocages en revue mis en avant, prochaines étapes proposées.",
         cadence: "Hebdo · lundi 09:00",
       },
     },
