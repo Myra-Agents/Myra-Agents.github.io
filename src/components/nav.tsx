@@ -6,10 +6,11 @@ import { useLang, useTheme } from "./providers";
 const COPY = {
   en: {
     links: [
-      { href: "#demos", label: "Product" },
-      { href: "#how", label: "How it works" },
-      { href: "#roadmap", label: "Roadmap" },
-      { href: "#install", label: "Install" },
+      { href: "/#demos", label: "Product" },
+      { href: "/marketplace/", label: "Marketplace" },
+      { href: "/#how", label: "How it works" },
+      { href: "/#roadmap", label: "Roadmap" },
+      { href: "/#install", label: "Install" },
       { href: "https://github.com/Myra-Agents/Myra-Agents", label: "GitHub" },
     ],
     download: "Download",
@@ -18,10 +19,11 @@ const COPY = {
   },
   fr: {
     links: [
-      { href: "#demos", label: "Produit" },
-      { href: "#how", label: "Fonctionnement" },
-      { href: "#roadmap", label: "Feuille de route" },
-      { href: "#install", label: "Installer" },
+      { href: "/#demos", label: "Produit" },
+      { href: "/marketplace/", label: "Marketplace" },
+      { href: "/#how", label: "Fonctionnement" },
+      { href: "/#roadmap", label: "Feuille de route" },
+      { href: "/#install", label: "Installer" },
       { href: "https://github.com/Myra-Agents/Myra-Agents", label: "GitHub" },
     ],
     download: "Télécharger",
@@ -38,7 +40,7 @@ export function Nav() {
   return (
     <header className="sticky top-0 z-40 border-b border-line bg-paper/85 backdrop-blur">
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-5 py-3">
-        <a href="#top" className="flex items-center gap-2.5">
+        <a href="/" className="flex items-center gap-2.5">
           {/* Black glyph on light, white on dark — CSS swap (no flash). */}
           {/* biome-ignore lint/performance/noImgElement: tiny static logo, avoids next/image dark-swap quirks */}
           <img
@@ -104,7 +106,7 @@ export function Nav() {
           </button>
 
           <a
-            href="#install"
+            href="/#install"
             className="flex h-8 items-center rounded-full bg-ink px-4 text-sm font-bold text-paper transition hover:opacity-85"
           >
             {t.download}
