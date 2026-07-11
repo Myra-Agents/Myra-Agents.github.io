@@ -1,0 +1,269 @@
+From aa89ad34894f4b6d561d93c43a69804b069db583 Mon Sep 17 00:00:00 2001
+From: Claude <noreply@anthropic.com>
+Date: Sat, 11 Jul 2026 10:32:26 +0000
+Subject: [PATCH] feat(deep-link): open prefilled patrol editor from
+ myra://patrol/new links
+
+Extend the myra:// deep-link handler to recognize
+`myra://patrol/new?template=<id>` (the landing site's "Open in Myra" links)
+and route the main window to the prefilled patrol editor
+(`/schedules/edit/?template=<id>`), alongside the existing auth-callback link.
+
+- lib.rs: add `parse_patrol_template` (charset-restricted id), buffer the
+  target in `PendingNavigation` for the cold-start case, emit the existing
+  `tray-navigate` event, and expose `take_pending_navigation`.
+- tray-action-listener: drain the buffered navigation on mount.
+- schedule-ideas: enable the ready "Popular" template group (dailyBrief,
+  standupPrep, weeklyReview) so multiple deep links resolve to real templates.
+
+Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_013YqsGjXbSBoqDCqtxNtZiT
+---
+ src-tauri/src/lib.rs                          | 74 ++++++++++++++++---
+ .../_components/tray-action-listener.tsx      | 17 ++++-
+ src/lib/schedule-ideas.ts                     | 50 ++++++-------
+ 3 files changed, 106 insertions(+), 35 deletions(-)
+
+diff --git a/src-tauri/src/lib.rs b/src-tauri/src/lib.rs
+index 6e0dede..35ab6ca 100644
+--- a/src-tauri/src/lib.rs
++++ b/src-tauri/src/lib.rs
+@@ -21,6 +21,13 @@ use tray::{hide_tray_popover, open_main, quit_app, TrayNavigate, TrayState};
+ #[derive(Default)]
+ struct PendingAuth(Mutex<Option<String>>);
+ 
++/// Buffer for an in-app route requested by a `myra://patrol/new?template=…`
++/// deep link that arrives before the webview's `tray-navigate` listener is
++/// ready (the link can launch the app cold). The frontend drains it via
++/// `take_pending_navigation` on mount, mirroring the auth-code flow above.
++#[derive(Default)]
++struct PendingNavigation(Mutex<Option<String>>);
++
+ /// Where the hosted web app's desktop login bridge page lives. The desktop
+ /// opens `<base>/auth/desktop/` in the system browser; the bridge runs Clerk,
+ /// then deep-links back with a one-time handoff code.
+@@ -56,6 +63,32 @@ fn parse_auth_code(url: &url::Url) -> Option<String> {
+         .filter(|c| !c.is_empty())
+ }
+ 
++/// Map a `myra://patrol/new?template=<id>` deep link (the "Open in Myra" links
++/// on the landing site's templates page) to the in-app editor route
++/// `/schedules/edit/?template=<id>`. Returns `None` for any other URL.
++///
++/// The template id is restricted to a conservative charset so a crafted link
++/// can never smuggle extra path or query segments into the route we hand the
++/// frontend router. Unknown ids are still routed — the editor falls back to a
++/// blank draft when the id matches no template.
++fn parse_patrol_template(url: &url::Url) -> Option<String> {
++    if url.scheme() != "myra" {
++        return None;
++    }
++    // host = "patrol", path = "/new" (tolerate a trailing slash).
++    if url.host_str() != Some("patrol") || url.path().trim_end_matches('/') != "/new" {
++        return None;
++    }
++    let template = url
++        .query_pairs()
++        .find(|(k, _)| k == "template")
++        .map(|(_, v)| v.into_owned())
++        .filter(|t| {
++            !t.is_empty() && t.chars().all(|c| c.is_ascii_alphanumeric() || c == '-' || c == '_')
++        })?;
++    Some(format!("/schedules/edit/?template={template}"))
++}
++
+ /// The stable port the persistent local service listens on. When a service is
+ /// running here we *adopt* it instead of spawning a duplicate writer on
+ /// `~/.myra-agents`.
+@@ -672,6 +705,14 @@ fn take_pending_auth_code(state: tauri::State<'_, PendingAuth>) -> Option<String
+     state.0.lock().ok().and_then(|mut c| c.take())
+ }
+ 
++/// Drain any navigation target buffered before the frontend's `tray-navigate`
++/// listener mounted (a `myra://patrol/new?template=…` deep link can launch the
++/// app cold, before the webview is ready).
++#[tauri::command]
++fn take_pending_navigation(state: tauri::State<'_, PendingNavigation>) -> Option<String> {
++    state.0.lock().ok().and_then(|mut c| c.take())
++}
++
+ /// Open the webview's devtools, invoked by the frontend's dev-only "Inspect
+ /// Element" context-menu item (the native WebKit menu — and its Inspect entry —
+ /// are suppressed by the frontend). `open_devtools` only exists in debug builds
+@@ -682,8 +723,11 @@ fn open_devtools(#[allow(unused_variables)] window: tauri::WebviewWindow) {
+     window.open_devtools();
+ }
+ 
+-/// Wire the `myra://` deep-link handler: buffer the auth code, notify the
+-/// frontend, and bring the window forward.
++/// Wire the `myra://` deep-link handler. Two link shapes are recognized:
++/// `myra://auth/callback?code=…` (login handoff) buffers the code and notifies
++/// the frontend; `myra://patrol/new?template=<id>` (landing-site "Open in Myra"
++/// links) routes the main window to the prefilled patrol editor. Both bring the
++/// window forward.
+ fn setup_deep_link(handle: &AppHandle) {
+     use tauri_plugin_deep_link::DeepLinkExt;
+ 
+@@ -697,15 +741,25 @@ fn setup_deep_link(handle: &AppHandle) {
+     let h = handle.clone();
+     handle.deep_link().on_open_url(move |event| {
+         for url in event.urls() {
+-            let Some(code) = parse_auth_code(&url) else {
+-                continue;
+-            };
+-            if let Some(state) = h.try_state::<PendingAuth>() {
+-                if let Ok(mut slot) = state.0.lock() {
+-                    *slot = Some(code.clone());
++            if let Some(code) = parse_auth_code(&url) {
++                if let Some(state) = h.try_state::<PendingAuth>() {
++                    if let Ok(mut slot) = state.0.lock() {
++                        *slot = Some(code.clone());
++                    }
+                 }
++                let _ = h.emit("auth-callback", AuthCallback { code });
++            } else if let Some(path) = parse_patrol_template(&url) {
++                // Buffer for the cold-start case (the deep link launched the
++                // app), then emit the same `tray-navigate` event the tray uses.
++                if let Some(state) = h.try_state::<PendingNavigation>() {
++                    if let Ok(mut slot) = state.0.lock() {
++                        *slot = Some(path.clone());
++                    }
++                }
++                let _ = h.emit("tray-navigate", TrayNavigate { path, new_schedule: false });
++            } else {
++                continue;
+             }
+-            let _ = h.emit("auth-callback", AuthCallback { code });
+             if let Some(win) = h.get_webview_window("main") {
+                 let _ = win.show();
+                 let _ = win.set_focus();
+@@ -834,6 +888,7 @@ pub fn run() {
+         })
+         .manage(TrayState::default())
+         .manage(PendingAuth::default())
++        .manage(PendingNavigation::default())
+         .setup(|app| {
+             tray::setup_tray(app.handle())?;
+             start_local_backend(app.handle());
+@@ -862,6 +917,7 @@ pub fn run() {
+             remote_access_status,
+             start_login,
+             take_pending_auth_code,
++            take_pending_navigation,
+             open_devtools,
+             hide_tray_popover,
+             open_main,
+diff --git a/src/app/(main)/_components/tray-action-listener.tsx b/src/app/(main)/_components/tray-action-listener.tsx
+index 5904b3b..02effb5 100644
+--- a/src/app/(main)/_components/tray-action-listener.tsx
++++ b/src/app/(main)/_components/tray-action-listener.tsx
+@@ -4,7 +4,7 @@ import { useEffect } from "react";
+ 
+ import { useRouter } from "next/navigation";
+ 
+-import { isTauri } from "@tauri-apps/api/core";
++import { invoke, isTauri } from "@tauri-apps/api/core";
+ import { listen } from "@tauri-apps/api/event";
+ 
+ /** Payload of the `tray-navigate` event emitted by the tray popover's `open_main`. */
+@@ -18,6 +18,12 @@ interface TrayNavigate {
+  * `open_main` Tauri command (which reveals + focuses this window and emits
+  * `tray-navigate`); here we route to the requested path and, for "New patrol",
+  * arm the same pending-new-schedule flow the menu uses.
++ *
++ * The `myra://patrol/new?template=…` deep-link handler (see `lib.rs`) reuses the
++ * same `tray-navigate` event to open the prefilled patrol editor. Because a deep
++ * link can launch the app cold — before this listener mounts — the Rust side
++ * also buffers the target; we drain that buffer on mount via
++ * `take_pending_navigation`.
+  */
+ export function TrayActionListener() {
+   const router = useRouter();
+@@ -27,6 +33,15 @@ export function TrayActionListener() {
+     // event API has no backend and would throw on transformCallback.
+     if (!isTauri()) return;
+     let unlisten: (() => void) | undefined;
++
++    // Drain a navigation buffered before this listener mounted (a deep link
++    // that launched the app cold). Ignore failures — the command is desktop-only.
++    void invoke<string | null>("take_pending_navigation")
++      .then((path) => {
++        if (path) router.push(path);
++      })
++      .catch(() => undefined);
++
+     void listen<TrayNavigate>("tray-navigate", ({ payload }) => {
+       router.push(payload.path);
+     }).then((un) => {
+diff --git a/src/lib/schedule-ideas.ts b/src/lib/schedule-ideas.ts
+index 2ae2b72..9d0daef 100644
+--- a/src/lib/schedule-ideas.ts
++++ b/src/lib/schedule-ideas.ts
+@@ -4,11 +4,11 @@ import type { ScheduleKind } from "@/types/schedule";
+ export type ConnectorKey = "clock" | "github" | "slack" | "mail" | "globe" | "shield";
+ 
+ /** Use-case idea categories — the segmented tabs above the idea grid (Figma). */
+-export type IdeaCategory = "personal";
+-// | "popular" | "codeReview" | "security" | "incidents" | "dataResearch";
++export type IdeaCategory = "personal" | "popular";
++// | "codeReview" | "security" | "incidents" | "dataResearch";
+ 
+-export const IDEA_CATEGORIES: IdeaCategory[] = ["personal"];
+-// ["popular", "codeReview", "security", "incidents", "dataResearch"];
++export const IDEA_CATEGORIES: IdeaCategory[] = ["personal", "popular"];
++// ["codeReview", "security", "incidents", "dataResearch"];
+ 
+ /** A use-case template surfaced as an idea card. Copy comes from i18n
+  *  (`schedules.ideas.<id>.{name,description,cardTitle,prompt}`); clicking "Add"
+@@ -30,27 +30,27 @@ export const SCHEDULE_IDEAS: ScheduleIdea[] = [
+     tags: ["computer", "files", "organization"],
+   },
+   // Popular
+-  // {
+-  //   id: "dailyBrief",
+-  //   category: "popular",
+-  //   connectors: ["clock", "github", "slack"],
+-  //   schedule: { type: "daily", time: "09:00" },
+-  //   tags: ["brief"],
+-  // },
+-  // {
+-  //   id: "standupPrep",
+-  //   category: "popular",
+-  //   connectors: ["clock", "slack"],
+-  //   schedule: { type: "weekly", days: [1, 2, 3, 4, 5], time: "08:45" },
+-  //   tags: ["standup"],
+-  // },
+-  // {
+-  //   id: "weeklyReview",
+-  //   category: "popular",
+-  //   connectors: ["clock", "github"],
+-  //   schedule: { type: "weekly", days: [1], time: "09:00" },
+-  //   tags: ["review"],
+-  // },
++  {
++    id: "dailyBrief",
++    category: "popular",
++    connectors: ["clock", "github", "slack"],
++    schedule: { type: "daily", time: "09:00" },
++    tags: ["brief"],
++  },
++  {
++    id: "standupPrep",
++    category: "popular",
++    connectors: ["clock", "slack"],
++    schedule: { type: "weekly", days: [1, 2, 3, 4, 5], time: "08:45" },
++    tags: ["standup"],
++  },
++  {
++    id: "weeklyReview",
++    category: "popular",
++    connectors: ["clock", "github"],
++    schedule: { type: "weekly", days: [1], time: "09:00" },
++    tags: ["review"],
++  },
+   // Code review
+   // {
+   //   id: "prReview",
+-- 
+2.43.0
+
