@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { MarketplaceContent } from "@/components/marketplace-content";
+import { getMarketplaceSkills } from "@/lib/marketplace";
 
 export const metadata: Metadata = {
   title: "Skill marketplace — Myra Agents",
@@ -8,6 +9,11 @@ export const metadata: Metadata = {
   alternates: { canonical: "/marketplace" },
 };
 
-export default function MarketplacePage() {
-  return <MarketplaceContent />;
+// Static page baked at build time from the marketplace repo's catalog.json.
+// A rebuild (fired by that repo's CI when a skill is added) refreshes it.
+export const dynamic = "force-static";
+
+export default async function MarketplacePage() {
+  const skills = await getMarketplaceSkills();
+  return <MarketplaceContent skills={skills} />;
 }

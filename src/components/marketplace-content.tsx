@@ -4,6 +4,7 @@ import { ArrowLeft, Download, MousePointerClick, Sparkles } from "lucide-react";
 import { MarketplaceGallery } from "@/components/marketplace-gallery";
 import { Nav } from "@/components/nav";
 import { useT } from "@/components/providers";
+import type { MarketplaceCard } from "@/lib/marketplace";
 
 const COPY = {
   en: {
@@ -50,7 +51,7 @@ const COPY = {
 
 const STEP_ICONS = [MousePointerClick, Download, Sparkles] as const;
 
-export function MarketplaceContent() {
+export function MarketplaceContent({ skills }: { skills: MarketplaceCard[] }) {
   const t = useT(COPY);
 
   return (
@@ -96,7 +97,7 @@ export function MarketplaceContent() {
         </ol>
 
         <div className="mt-10">
-          <MarketplaceGallery />
+          <MarketplaceGallery skills={skills} />
         </div>
       </main>
     </div>
