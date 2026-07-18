@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Download } from "lucide-react";
+import { capture } from "@/lib/analytics";
 import { useT } from "@/components/providers";
 
 /**
@@ -70,6 +71,21 @@ const LABEL: Record<string, [string, string]> = {
   "mac-x64": ["Download for macOS", "Intel · .dmg"],
   win: ["Download for Windows", "x64 · .exe installer"],
   linux: ["Download for Linux", "x64 · AppImage"],
+};
+/** platform/arch/format metadata for each downloadable asset suffix, keyed
+ * the same way as SUFFIX_FILE/KEY_SUFFIX — reused for analytics so we don't
+ * hardcode the mapping twice. */
+const SUFFIX_META: Record<
+  string,
+  { platform: string; arch: string; format: string }
+> = {
+  "_aarch64.dmg": { platform: "mac", arch: "arm64", format: "dmg" },
+  "_x64.dmg": { platform: "mac", arch: "x64", format: "dmg" },
+  "_x64-setup.exe": { platform: "windows", arch: "x64", format: "exe" },
+  "_x64_en-US.msi": { platform: "windows", arch: "x64", format: "msi" },
+  "_amd64.AppImage": { platform: "linux", arch: "x64", format: "AppImage" },
+  "_amd64.deb": { platform: "linux", arch: "x64", format: "deb" },
+  ".x86_64.rpm": { platform: "linux", arch: "x64", format: "rpm" },
 };
 
 async function detectPlatform(): Promise<string | null> {
@@ -141,6 +157,8 @@ export function Install() {
   }, []);
 
   const osCard = platform?.startsWith("mac") ? "mac" : platform;
+  const trackDownload = (suffix: string) =>
+    capture("download_clicked", { ...SUFFIX_META[suffix], version });
   const dlBtn =
     "flex items-center justify-center rounded-lg bg-ink px-4 py-2.5 text-sm font-bold text-paper transition hover:opacity-85";
   const dlBtnGhost =
@@ -160,6 +178,7 @@ export function Install() {
           <div>
             <a
               href={urls[KEY_SUFFIX[platform]]}
+              onClick={() => trackDownload(KEY_SUFFIX[platform])}
               className="inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3.5 text-base font-bold text-white shadow-sm transition hover:opacity-90"
             >
               <Download className="h-5 w-5" />
@@ -177,10 +196,18 @@ export function Install() {
           >
             <div className="text-sm font-bold">macOS</div>
             <div className="mt-3 flex flex-col gap-2">
-              <a href={urls["_aarch64.dmg"]} className={dlBtn}>
+              <a
+                href={urls["_aarch64.dmg"]}
+                onClick={() => trackDownload("_aarch64.dmg")}
+                className={dlBtn}
+              >
                 Apple&nbsp;Silicon&nbsp;· .dmg
               </a>
-              <a href={urls["_x64.dmg"]} className={dlBtnGhost}>
+              <a
+                href={urls["_x64.dmg"]}
+                onClick={() => trackDownload("_x64.dmg")}
+                className={dlBtnGhost}
+              >
                 Intel&nbsp;· .dmg
               </a>
             </div>
@@ -190,10 +217,18 @@ export function Install() {
           >
             <div className="text-sm font-bold">Windows</div>
             <div className="mt-3 flex flex-col gap-2">
-              <a href={urls["_x64-setup.exe"]} className={dlBtn}>
+              <a
+                href={urls["_x64-setup.exe"]}
+                onClick={() => trackDownload("_x64-setup.exe")}
+                className={dlBtn}
+              >
                 x64&nbsp;· .exe
               </a>
-              <a href={urls["_x64_en-US.msi"]} className={dlBtnGhost}>
+              <a
+                href={urls["_x64_en-US.msi"]}
+                onClick={() => trackDownload("_x64_en-US.msi")}
+                className={dlBtnGhost}
+              >
                 x64&nbsp;· .msi
               </a>
             </div>
@@ -203,15 +238,24 @@ export function Install() {
           >
             <div className="text-sm font-bold">Linux</div>
             <div className="mt-3 flex flex-col gap-2">
-              <a href={urls["_amd64.AppImage"]} className={dlBtn}>
+              <a
+                href={urls["_amd64.AppImage"]}
+                onClick={() => trackDownload("_amd64.AppImage")}
+                className={dlBtn}
+              >
                 x64&nbsp;· AppImage
               </a>
               <div className="flex gap-2">
-                <a href={urls["_amd64.deb"]} className={`${dlBtnGhost} flex-1`}>
+                <a
+                  href={urls["_amd64.deb"]}
+                  onClick={() => trackDownload("_amd64.deb")}
+                  className={`${dlBtnGhost} flex-1`}
+                >
                   .deb
                 </a>
                 <a
                   href={urls[".x86_64.rpm"]}
+                  onClick={() => trackDownload(".x86_64.rpm")}
                   className={`${dlBtnGhost} flex-1`}
                 >
                   .rpm
@@ -224,6 +268,14 @@ export function Install() {
           {version} · {t.see}{" "}
           <a
             href="https://github.com/Myra-Agents/Myra-Agents/releases/latest"
+            onClick={() =>
+              capture("download_clicked", {
+                platform: "all",
+                arch: "all",
+                format: "page",
+                version,
+              })
+            }
             className="underline hover:text-ink-70"
           >
             {t.allReleases}
