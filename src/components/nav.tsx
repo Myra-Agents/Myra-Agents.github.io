@@ -1,6 +1,7 @@
 "use client";
 
 import { Moon, Sun } from "lucide-react";
+import { capture } from "@/lib/analytics";
 import { useLang, useTheme } from "./providers";
 
 const COPY = {
@@ -63,7 +64,21 @@ export function Nav() {
 
         <div className="hidden items-center gap-6 text-sm font-medium text-ink-55 md:flex">
           {t.links.map((l) => (
-            <a key={l.href} href={l.href} className="transition hover:text-ink">
+            <a
+              key={l.href}
+              href={l.href}
+              onClick={() => {
+                if (l.href === "#install") {
+                  capture("install_cta_clicked", { location: "nav" });
+                } else if (l.href.includes("github.com")) {
+                  capture("github_link_clicked", {
+                    location: "nav",
+                    target: "repo",
+                  });
+                }
+              }}
+              className="transition hover:text-ink"
+            >
               {l.label}
             </a>
           ))}
@@ -105,6 +120,7 @@ export function Nav() {
 
           <a
             href="#install"
+            onClick={() => capture("install_cta_clicked", { location: "nav" })}
             className="flex h-8 items-center rounded-full bg-ink px-4 text-sm font-bold text-paper transition hover:opacity-85"
           >
             {t.download}

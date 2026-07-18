@@ -20,6 +20,7 @@ import { Nav } from "@/components/nav";
 import { PatrolDemo } from "@/components/patrol-demo";
 import { useT } from "@/components/providers";
 import { WindowFrame } from "@/components/window-frame";
+import { capture } from "@/lib/analytics";
 
 /* ---------- copy dictionary ---------- */
 
@@ -502,6 +503,9 @@ export default function Home() {
           <div className="mt-8 flex flex-wrap items-center gap-3">
             <a
               href="#install"
+              onClick={() =>
+                capture("install_cta_clicked", { location: "hero" })
+              }
               className="inline-flex items-center gap-2 rounded-full bg-ink px-5 py-2.5 text-sm font-bold text-paper transition hover:opacity-85"
             >
               {t.hero.download}
@@ -509,6 +513,12 @@ export default function Home() {
             </a>
             <a
               href="https://github.com/Myra-Agents/Myra-Agents"
+              onClick={() =>
+                capture("github_link_clicked", {
+                  location: "hero",
+                  target: "repo",
+                })
+              }
               className="inline-flex items-center gap-2 rounded-full border border-line-strong px-5 py-2.5 text-sm font-bold text-ink-70 transition hover:bg-paper-2"
             >
               <svg viewBox="0 0 16 16" className="h-4 w-4 fill-current" aria-hidden>
@@ -694,6 +704,12 @@ export default function Home() {
           {t.roadmap.ctaPre}
           <a
             href="https://github.com/Myra-Agents/Myra-Agents/issues"
+            onClick={() =>
+              capture("github_link_clicked", {
+                location: "roadmap",
+                target: "issues",
+              })
+            }
             className="underline hover:text-ink-70"
           >
             {t.roadmap.ctaLink}
@@ -731,12 +747,24 @@ export default function Home() {
           <div className="flex items-center gap-6">
             <a
               href="https://github.com/orgs/Myra-Agents/repositories"
+              onClick={() =>
+                capture("github_link_clicked", {
+                  location: "footer",
+                  target: "org",
+                })
+              }
               className="transition hover:text-ink-70"
             >
               {t.footer.org}
             </a>
             <a
               href="https://github.com/Myra-Agents/Myra-Agents"
+              onClick={() =>
+                capture("github_link_clicked", {
+                  location: "footer",
+                  target: "repo",
+                })
+              }
               className="transition hover:text-ink-70"
             >
               {t.footer.repo}
